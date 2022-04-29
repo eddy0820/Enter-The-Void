@@ -54,6 +54,12 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		mouse_axis = event.relative
 		camera_rotation()
+	
+	if Input.is_action_just_pressed("interact") && $Head/Aimcast.is_colliding():
+		var aimcollider = $Head/Aimcast.get_collider()
+		if aimcollider.is_in_group("interactable") && aimcollider.get_parent().has_method("interact"):
+			aimcollider.get_parent().interact()
+		
 
 
 func walk(delta: float) -> void:
