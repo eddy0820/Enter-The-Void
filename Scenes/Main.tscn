@@ -1,12 +1,14 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://Scenes/KinematicBody.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/KinematicBody.gd" type="Script" id=1]
 [ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
 [ext_resource path="res://Materials/metal_wall.tres" type="Material" id=3]
 [ext_resource path="res://Materials/metal.tres" type="Material" id=4]
 [ext_resource path="res://Sounds/ambience_sky.wav" type="AudioStream" id=5]
-[ext_resource path="res://Scenes/Button.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/Button.gd" type="Script" id=6]
 [ext_resource path="res://Textures/crosshair.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/ScannerConsole.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Screen.gd" type="Script" id=9]
 
 [sub_resource type="PanoramaSky" id=2]
 panorama = ExtResource( 2 )
@@ -19,6 +21,12 @@ ambient_light_energy = 16.0
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
+
+[sub_resource type="PlaneMesh" id=7]
+size = Vector2( 1.2, 1.2 )
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.118809, 0.0907091, 0.11764 )
@@ -77,12 +85,24 @@ collide_with_bodies = false
 [node name="Console" type="Spatial" parent="Ship"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.26276, 1.42882, 0 )
 
+[node name="Screen" type="MeshInstance" parent="Ship/Console"]
+transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.248414, 0.61072, 0 )
+mesh = SubResource( 7 )
+material/0 = SubResource( 8 )
+script = ExtResource( 9 )
+
+[node name="GUI" type="Viewport" parent="Ship/Console/Screen"]
+size = Vector2( 800, 800 )
+
+[node name="ScannerConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 8 )]
+
 [node name="console_deck" type="CSGBox" parent="Ship/Console"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.444981, -0.681444, 0 )
 use_collision = true
 width = 1.50801
 height = 1.09588
 depth = 4.51048
+material = ExtResource( 4 )
 
 [node name="console_upper_deck" type="CSGBox" parent="Ship/Console"]
 transform = Transform( 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.10331, 0.422606, -0.0777106 )
@@ -90,6 +110,7 @@ use_collision = true
 width = 0.77534
 height = 1.65338
 depth = 4.51048
+material = ExtResource( 4 )
 
 [node name="Button" type="Area" parent="Ship/Console" groups=["interactable"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.81042, -0.169947, 0 )
