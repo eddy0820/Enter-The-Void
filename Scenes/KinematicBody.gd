@@ -57,8 +57,8 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("interact") && $Head/Aimcast.is_colliding():
 		var aimcollider = $Head/Aimcast.get_collider()
-		if aimcollider.is_in_group("interactable") && aimcollider.get_parent().has_method("interact"):
-			aimcollider.get_parent().interact()
+		if aimcollider.has_method("interact"):
+			aimcollider.interact()
 		
 
 

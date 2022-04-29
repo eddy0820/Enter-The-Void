@@ -95,7 +95,7 @@ depth = 4.51048
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.81042, -0.169947, 0 )
 script = ExtResource( 6 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Button" groups=["interactable"]]
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Button"]
 shape = SubResource( 4 )
 
 [node name="mesh" type="MeshInstance" parent="Ship/Console/Button"]
