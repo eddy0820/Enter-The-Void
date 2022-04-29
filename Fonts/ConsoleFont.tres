@@ -1,0 +1,10 @@
+[gd_resource type="DynamicFont" load_steps=2 format=2]
+
+[sub_resource type="DynamicFontData" id=3]
+resource_local_to_scene = true
+font_path = "res://Fonts/Modeseven-L3n5.ttf"
+
+[resource]
+resource_local_to_scene = true
+size = 25
+font_data = SubResource( 3 )
