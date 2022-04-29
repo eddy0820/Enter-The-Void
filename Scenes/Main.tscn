@@ -1,3 +1,183 @@
-[gd_scene format=2]
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/KinematicBody.gd" type="Script" id=1]
+[ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
+[ext_resource path="res://Materials/metal_wall.tres" type="Material" id=3]
+[ext_resource path="res://Materials/metal.tres" type="Material" id=4]
+[ext_resource path="res://Sounds/ambience_sky.wav" type="AudioStream" id=5]
+
+[sub_resource type="PanoramaSky" id=2]
+panorama = ExtResource( 2 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 2
+background_sky = SubResource( 2 )
+ambient_light_color = Color( 1, 1, 1, 1 )
+ambient_light_energy = 16.0
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
 
 [node name="Main" type="Spatial"]
+
+[node name="Env" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+environment = SubResource( 3 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="Env"]
+transform = Transform( 0.642279, 0, 0.766471, 0, 1, 0, -0.766471, 0, 0.642279, 0, 2.37948, 0 )
+visible = false
+
+[node name="Player" type="KinematicBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.77306, 0 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Player"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="Head" type="Spatial" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.483192, 0 )
+
+[node name="Camera" type="Camera" parent="Player/Head"]
+
+[node name="Ship" type="Spatial" parent="."]
+
+[node name="floor" type="CSGBox" parent="Ship"]
+transform = Transform( 1.17163, 0, 0, 0, 1, 0, 0, 0, 1, 3.74213e-05, 0, 0 )
+use_collision = true
+width = 11.1104
+height = 0.568602
+depth = 4.30004
+material = ExtResource( 4 )
+
+[node name="wall" type="CSGBox" parent="Ship"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.84968, 2, 0 )
+use_collision = true
+width = 0.835595
+height = 4.0
+depth = 5.07826
+material = ExtResource( 4 )
+
+[node name="wall3" type="CSGBox" parent="Ship"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.74544, 2, 2.23868 )
+use_collision = true
+width = 1.61658
+height = 4.0
+depth = 0.438092
+material = ExtResource( 3 )
+
+[node name="wall4" type="CSGBox" parent="Ship"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.745, 2, -2.239 )
+use_collision = true
+width = 1.61658
+height = 4.0
+depth = 0.438092
+material = ExtResource( 3 )
+
+[node name="wall5" type="CSGBox" parent="Ship"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.745, 2, 2.23868 )
+use_collision = true
+width = 1.61658
+height = 4.0
+depth = 0.438092
+material = ExtResource( 3 )
+
+[node name="wall6" type="CSGBox" parent="Ship"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.745, 2, -2.239 )
+use_collision = true
+width = 1.61658
+height = 4.0
+depth = 0.438092
+material = ExtResource( 3 )
+
+[node name="wall2" type="CSGBox" parent="Ship"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.65149, 2, 0 )
+use_collision = true
+width = 0.835595
+height = 4.0
+depth = 4.30004
+material = ExtResource( 4 )
+
+[node name="ceiling" type="CSGBox" parent="Ship"]
+transform = Transform( 1.17163, 0, 0, 0, 1, 0, 0, 0, 1, 3.74213e-05, 4, 0 )
+use_collision = true
+width = 10.8906
+height = 0.568602
+depth = 4.30004
+material = ExtResource( 4 )
+
+[node name="angled_wall" type="CSGBox" parent="Ship"]
+transform = Transform( 1.17163, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0.00200159, 4, 1.99986 )
+use_collision = true
+width = 10.8906
+height = 0.568602
+material = ExtResource( 3 )
+
+[node name="angled_wall2" type="CSGBox" parent="Ship"]
+transform = Transform( 1.17163, 0, 0, 0, -0.258819, -0.965926, 0, 0.965926, -0.258819, -0.00243766, 0, 2.0002 )
+use_collision = true
+width = 10.8906
+height = 0.568602
+material = ExtResource( 3 )
+
+[node name="angled_wall3" type="CSGBox" parent="Ship"]
+transform = Transform( 1.17163, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819, -0.00243766, 2.38419e-07, -1.9998 )
+use_collision = true
+width = 10.8906
+height = 0.568602
+material = ExtResource( 3 )
+
+[node name="angled_wall4" type="CSGBox" parent="Ship"]
+transform = Transform( 1.17163, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -0.00243766, 4, -1.9998 )
+use_collision = true
+width = 10.8906
+height = 0.568602
+material = ExtResource( 3 )
+
+[node name="Console" type="Spatial" parent="Ship"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.26276, 1.42882, 0 )
+
+[node name="console_deck" type="CSGBox" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.444981, -0.681444, 0 )
+use_collision = true
+width = 1.50801
+height = 1.09588
+depth = 4.51048
+
+[node name="console_upper_deck" type="CSGBox" parent="Ship/Console"]
+transform = Transform( 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.10331, 0.422606, -0.0777106 )
+use_collision = true
+width = 0.77534
+height = 1.65338
+depth = 4.51048
+
+[node name="Audio" type="Spatial" parent="."]
+
+[node name="ambient1" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7911, -0.00973892, 12.9607 )
+stream = ExtResource( 5 )
+unit_db = 2.0
+autoplay = true
+
+[node name="ambient2" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9587, 0.0134468, -9.18884 )
+stream = ExtResource( 5 )
+unit_db = 2.0
+pitch_scale = 0.8
+autoplay = true
+
+[node name="ambient3" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.05931, -0.0119362, -8.6772 )
+stream = ExtResource( 5 )
+unit_db = 2.0
+pitch_scale = 1.3
+autoplay = true
+
+[node name="ambient4" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.1802, 0.0118256, 9.51266 )
+stream = ExtResource( 5 )
+unit_db = 2.0
+pitch_scale = 1.1
+autoplay = true
