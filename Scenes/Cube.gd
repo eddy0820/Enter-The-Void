@@ -4,6 +4,10 @@ var rotational_velocity_x = 0.0
 var rotational_velocity_y = 0.0
 var rotational_velocity_z = 0.0
 
+var info_mass: int
+var info_velocity: int
+var react_to_gamma: bool
+
 
 var rng = RandomNumberGenerator.new()
 
@@ -18,6 +22,7 @@ func _ready():
 	
 
 func _process(delta):
+	#Globals.anomaly_active = true
 	rotate_x(rotational_velocity_x)
 	rotate_y(rotational_velocity_x)
 	rotate_z(rotational_velocity_z)

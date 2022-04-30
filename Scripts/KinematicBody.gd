@@ -55,15 +55,19 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	walk(delta)
 	
-	#set HUD label to colliding button
+	#set HUD label to colliding button && change crosshair
 	if $Head/Aimcast.is_colliding():
 		if $Head/Aimcast.get_collider().is_in_group("interactable"):
 			$Head/Camera/InteractLabel.text = $Head/Aimcast.get_collider().name
+			$Head/Camera/CenterContainer/crosshair.texture = preload("res://Textures/ui/crosshair_interact.png")
 		else:
 			$Head/Camera/InteractLabel.text = ""
+			$Head/Camera/CenterContainer/crosshair.texture = preload("res://Textures/ui/crosshair.png")
 	else:
 		$Head/Camera/InteractLabel.text = ""
+		$Head/Camera/CenterContainer/crosshair.texture = preload("res://Textures/ui/crosshair.png")
 
+	
 # Called when there is an input event
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:

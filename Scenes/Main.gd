@@ -75,7 +75,36 @@ func push(button_name):
 			if screen_nav.visible:
 				screen_nav.rotateLeft(15)
 		"Recieve Transmission":
-			print("Transmission")
+			screen_message.loadText("This is a test message. I hope this shit works.")
+		"Gamma Pulse":
+			if !screen_radar.selecting:
+				screen_radar.ping()
+			print("Pressing pulse button")
+		"Identify as Planetary Mass":
+			if screen_radar.selecting:
+				print("Selecting Planetary Mass")
+				screen_radar.identifyAnomaly() # Pass the chosen type - check if correct in Globals
+				
+			else:
+				pass
+		"Identify as Debritus":
+			if screen_radar.selecting:
+				print("Selecting Debritus")
+				screen_radar.identifyAnomaly() 
+			else:
+				pass
+		"Identify as Alien Organism":
+			if screen_radar.selecting:
+				print("Selecting Alien Organism")
+				screen_radar.identifyAnomaly() 
+			else:
+				pass
+		"Identify as Unknown":
+			if screen_radar.selecting:
+				print("Selecting Unknown")
+				screen_radar.identifyAnomaly() 
+			else:
+				pass
 		
 
 

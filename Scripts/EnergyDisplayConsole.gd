@@ -14,10 +14,6 @@ func _ready():
 	$Control/VBoxContainer/HBoxContainer/VBoxContainer/Label2.text = str(currEnergy) + "%"
 	
 func _process(delta):
-	if(Input.is_action_just_pressed("move_forward")):
-		useEnergy(5)
-
-	
 	if(currEnergy <= lowEnergyThreshold && !lowEnergy):
 		$Control/VBoxContainer/CenterContainer/Timer.start()
 		lowEnergy = true

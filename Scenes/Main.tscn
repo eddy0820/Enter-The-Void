@@ -1,12 +1,12 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://Scripts/KinematicBody.gd" type="Script" id=1]
-[ext_resource path="res://Textures/black.png" type="Texture" id=2]
+[ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
 [ext_resource path="res://Materials/metal_wall.tres" type="Material" id=3]
 [ext_resource path="res://Materials/metal.tres" type="Material" id=4]
 [ext_resource path="res://Sounds/ambience_sky.wav" type="AudioStream" id=5]
 [ext_resource path="res://Scenes/Buttons.gd" type="Script" id=6]
-[ext_resource path="res://Textures/crosshair.png" type="Texture" id=7]
+[ext_resource path="res://Textures/ui/crosshair.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/ScannerConsole.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Screen.gd" type="Script" id=9]
 [ext_resource path="res://Materials/metal_smooth.tres" type="Material" id=10]
@@ -30,6 +30,10 @@
 [ext_resource path="res://Scenes/Cube.gd" type="Script" id=28]
 [ext_resource path="res://Sounds/ambient_anomaly_cube.mp3" type="AudioStream" id=29]
 [ext_resource path="res://Fonts/ConsoleFont.tres" type="DynamicFont" id=30]
+[ext_resource path="res://Models/planet2.obj" type="ArrayMesh" id=31]
+[ext_resource path="res://Scenes/Initiate Warp.gd" type="Script" id=32]
+[ext_resource path="res://Scenes/Sword.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Textures/planet2.png" type="Texture" id=34]
 
 [sub_resource type="PanoramaSky" id=2]
 panorama = ExtResource( 2 )
@@ -38,7 +42,6 @@ panorama = ExtResource( 2 )
 background_mode = 2
 background_sky = SubResource( 2 )
 ambient_light_color = Color( 1, 1, 1, 1 )
-ambient_light_energy = 6.0
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.3
@@ -161,6 +164,10 @@ normal_enabled = true
 normal_scale = 1.0
 normal_texture = ExtResource( 21 )
 
+[sub_resource type="SpatialMaterial" id=30]
+flags_unshaded = true
+albedo_texture = ExtResource( 34 )
+
 [node name="Main" type="Spatial"]
 script = ExtResource( 23 )
 
@@ -170,7 +177,7 @@ script = ExtResource( 23 )
 environment = SubResource( 3 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Env"]
-transform = Transform( 0.152225, -0.971225, 0.183167, 0.623876, 0.238163, 0.74435, -0.766555, 0.000964881, 0.642178, 0, 2.37948, -4.63203 )
+transform = Transform( -0.152225, 0.971225, -0.183167, 0.623876, 0.238163, 0.74435, 0.766555, -0.000964809, -0.642178, 0, 2.37948, -4.63203 )
 light_energy = 0.5
 shadow_enabled = true
 
@@ -187,13 +194,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.597865, 0 )
 
 [node name="Camera" type="Camera" parent="Player/Head"]
 current = true
-far = 500.0
+far = 1000.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Player/Head/Camera"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="TextureRect" type="TextureRect" parent="Player/Head/Camera/CenterContainer"]
+[node name="crosshair" type="TextureRect" parent="Player/Head/Camera/CenterContainer"]
 margin_left = 960.0
 margin_top = 540.0
 margin_right = 960.0
@@ -260,7 +267,6 @@ shape = SubResource( 17 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.413424, -0.45302, -0.428311, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Switch to Radar"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 18 )
 material/0 = ExtResource( 19 )
 
@@ -356,6 +362,7 @@ shape = SubResource( 21 )
 
 [node name="Initiate Warp" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0646434, -0.529348, 1.01832 )
+script = ExtResource( 32 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Initiate Warp"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0216923, 0 )
@@ -456,12 +463,24 @@ height = 1.2
 depth = 1.2
 material = ExtResource( 10 )
 
-[node name="Transmission" type="MeshInstance" parent="Ship/Console"]
+[node name="Transmission_Noti" type="MeshInstance" parent="Ship/Console"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.675995, -0.454674, -1.60189 )
 mesh = SubResource( 29 )
 material/0 = null
 
-[node name="OmniLight" type="OmniLight" parent="Ship/Console/Transmission"]
+[node name="OmniLight" type="OmniLight" parent="Ship/Console/Transmission_Noti"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0887385 )
+light_color = Color( 1, 0, 0, 1 )
+shadow_enabled = true
+omni_range = 0.790634
+omni_attenuation = 1.8025
+
+[node name="Navigation_Noti" type="MeshInstance" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.676, -0.455, 1.602 )
+mesh = SubResource( 29 )
+material/0 = null
+
+[node name="OmniLight" type="OmniLight" parent="Ship/Console/Navigation_Noti"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0887385 )
 light_color = Color( 1, 0, 0, 1 )
 shadow_enabled = true
@@ -648,7 +667,7 @@ mesh = ExtResource( 13 )
 material/0 = SubResource( 11 )
 
 [node name="Anomalies" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -130.364 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.7429, 0, -74.6087 )
 
 [node name="Cube" type="MeshInstance" parent="Anomalies"]
 transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )
@@ -665,6 +684,17 @@ max_db = 6.0
 pitch_scale = 1.1
 autoplay = true
 max_distance = 3000.0
+
+[node name="Visions" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 297.717 )
+
+[node name="Planet" type="MeshInstance" parent="Visions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 527.503 )
+mesh = ExtResource( 31 )
+material/0 = SubResource( 30 )
+
+[node name="Sword" parent="Visions/Planet" instance=ExtResource( 33 )]
+transform = Transform( 2.46059e-06, 32.5, 56.2916, 1.42062e-06, -56.2916, 32.5, 65, 0, -2.84124e-06, -209.886, 436.303, 0 )
 
 [node name="powertick" type="Timer" parent="."]
 wait_time = 3.0
