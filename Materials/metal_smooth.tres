@@ -1,0 +1,11 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[sub_resource type="StreamTexture" id=1]
+flags = 19
+load_path = "res://.import/metal_smooth.png-d773dcd50c7986bc2cfe361b2f0ccc9c.s3tc.stex"
+
+[resource]
+flags_world_triplanar = true
+albedo_texture = SubResource( 1 )
+uv1_scale = Vector3( 0.1, 0.1, 0.1 )
+uv1_triplanar = true

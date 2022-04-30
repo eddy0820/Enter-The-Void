@@ -7,6 +7,7 @@ export(float) var mouse_sensitivity = 8.0
 export(NodePath) var head_path = "Head"
 export(NodePath) var cam_path = "Head/Camera"
 export(float) var FOV = 80.0
+export(float) var MIN_FOV = 30.0
 var mouse_axis := Vector2()
 onready var head: Spatial = get_node(head_path)
 onready var cam: Camera = get_node(cam_path)
@@ -39,9 +40,15 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	move_axis.x = Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
 	move_axis.y = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	
+	if Input.is_action_pressed("zoom"):
+		cam.set_fov(lerp(cam.fov, FOV * 0.3, delta * 8))
+	else:
+		cam.set_fov(lerp(cam.fov, FOV, delta * 8))
+
 
 
 # Called every physics tick. 'delta' is constant
@@ -164,12 +171,10 @@ func jump() -> void:
 func sprint(delta: float) -> void:
 	if can_sprint():
 		_speed = sprint_speed
-		cam.set_fov(lerp(cam.fov, FOV * 1.05, delta * 8))
 		sprinting = true
 		
 	else:
 		_speed = walk_speed
-		cam.set_fov(lerp(cam.fov, FOV, delta * 8))
 		sprinting = false
 
 

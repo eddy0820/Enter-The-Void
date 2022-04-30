@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/taint_curved.obj-ed82f1099f8b63a15bafea22e3fd524a.mesh"
+
+[deps]
+
+files=[ "res://.import/taint_curved.obj-ed82f1099f8b63a15bafea22e3fd524a.mesh" ]
+
+source_file="res://Models/taint_curved.obj"
+dest_files=[ "res://.import/taint_curved.obj-ed82f1099f8b63a15bafea22e3fd524a.mesh", "res://.import/taint_curved.obj-ed82f1099f8b63a15bafea22e3fd524a.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scripts/KinematicBody.gd" type="Script" id=1]
 [ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
@@ -8,7 +8,13 @@
 [ext_resource path="res://Scripts/Button.gd" type="Script" id=6]
 [ext_resource path="res://Textures/crosshair.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/ScannerConsole.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scenes/Screen.gd" type="Script" id=9]
+[ext_resource path="res://Scripts/Screen.gd" type="Script" id=9]
+[ext_resource path="res://Materials/metal_smooth.tres" type="Material" id=10]
+[ext_resource path="res://Scripts/COSpawner.gd" type="Script" id=11]
+[ext_resource path="res://Animations/cam_zoom.tres" type="Animation" id=12]
+[ext_resource path="res://Models/taint_curved.obj" type="ArrayMesh" id=13]
+[ext_resource path="res://Textures/wallwriting.png" type="Texture" id=14]
+[ext_resource path="res://Materials/pulsing_flesh_shader.shader" type="Shader" id=15]
 
 [sub_resource type="PanoramaSky" id=2]
 panorama = ExtResource( 2 )
@@ -17,10 +23,42 @@ panorama = ExtResource( 2 )
 background_mode = 2
 background_sky = SubResource( 2 )
 ambient_light_color = Color( 1, 1, 1, 1 )
-ambient_light_energy = 16.0
+ambient_light_energy = 4.0
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.5
+radius = 0.3
+height = 1.2
+
+[sub_resource type="Animation" id=9]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:fov")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 70.0 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "cam_zoom_out"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:fov")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 30.0, 70.0 ]
+}
 
 [sub_resource type="PlaneMesh" id=7]
 size = Vector2( 1.2, 1.2 )
@@ -29,13 +67,54 @@ size = Vector2( 1.2, 1.2 )
 albedo_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="BoxShape" id=4]
-extents = Vector3( 0.118809, 0.0907091, 0.11764 )
+extents = Vector3( 0.160698, 0.145432, 0.144003 )
 
-[sub_resource type="CubeMesh" id=5]
-size = Vector3( 0.2, 0.2, 0.2 )
+[sub_resource type="CylinderMesh" id=14]
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.2
 
 [sub_resource type="SpatialMaterial" id=6]
 albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CubeMesh" id=15]
+size = Vector3( 0.3, 0.3, 0.3 )
+
+[sub_resource type="SpatialMaterial" id=16]
+albedo_color = Color( 0.00784314, 0, 1, 1 )
+
+[sub_resource type="BoxShape" id=17]
+extents = Vector3( 0.15, 0.15, 0.15 )
+
+[sub_resource type="CubeMesh" id=18]
+size = Vector3( 0.2, 0.2, 0.8 )
+
+[sub_resource type="BoxShape" id=19]
+extents = Vector3( 0.1, 0.1, 0.4 )
+
+[sub_resource type="PrismMesh" id=20]
+size = Vector3( 0.2, 0.2, 0.2 )
+
+[sub_resource type="BoxShape" id=21]
+extents = Vector3( 0.1, 0.1, 0.1 )
+
+[sub_resource type="CylinderMesh" id=22]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.4
+
+[sub_resource type="PlaneMesh" id=12]
+
+[sub_resource type="SpatialMaterial" id=13]
+flags_transparent = true
+albedo_texture = ExtResource( 14 )
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = ExtResource( 15 )
+shader_param/albedo = Color( 0.682353, 0, 0, 1 )
+shader_param/Saturation = 1.0
+shader_param/PulseRate = 1.0
+shader_param/PulseIntensity = 0.1
 
 [node name="Main" type="Spatial"]
 
@@ -45,8 +124,9 @@ albedo_color = Color( 1, 0, 0, 1 )
 environment = SubResource( 3 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Env"]
-transform = Transform( 0.642279, 0, 0.766471, 0, 1, 0, -0.766471, 0, 0.642279, 0, 2.37948, 0 )
+transform = Transform( 0.152225, -0.971225, 0.183167, 0.623876, 0.238163, 0.74435, -0.766555, 0.000964881, 0.642178, 0, 2.37948, -4.63203 )
 visible = false
+shadow_enabled = true
 
 [node name="Player" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.77306, 0 )
@@ -57,9 +137,11 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0
 shape = SubResource( 1 )
 
 [node name="Head" type="Spatial" parent="Player"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.483192, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.597865, 0 )
 
 [node name="Camera" type="Camera" parent="Player/Head"]
+current = true
+far = 500.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Player/Head/Camera"]
 anchor_right = 1.0
@@ -74,6 +156,11 @@ texture = ExtResource( 7 )
 expand = true
 stretch_mode = 4
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Head/Camera"]
+anims/RESET = SubResource( 9 )
+anims/cam_zoom = ExtResource( 12 )
+anims/cam_zoom_out = SubResource( 10 )
+
 [node name="Aimcast" type="RayCast" parent="Player/Head"]
 enabled = true
 cast_to = Vector3( 0, 0, -2 )
@@ -86,7 +173,7 @@ collide_with_bodies = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.26276, 1.42882, 0 )
 
 [node name="Screen" type="MeshInstance" parent="Ship/Console"]
-transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.248414, 0.61072, 0 )
+transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.248414, 0.399738, 0 )
 mesh = SubResource( 7 )
 material/0 = SubResource( 8 )
 script = ExtResource( 9 )
@@ -96,33 +183,116 @@ size = Vector2( 800, 800 )
 
 [node name="ScannerConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 8 )]
 
+[node name="ConsoleLight" type="OmniLight" parent="Ship/Console"]
+transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.276124, 0.399738, 0 )
+visible = false
+light_color = Color( 0, 0.607843, 0.0509804, 1 )
+omni_attenuation = 6.49801
+
+[node name="SpotLight" type="SpotLight" parent="Ship/Console"]
+transform = Transform( 2.18557e-08, 0.866026, 0.5, 3.78552e-08, -0.5, 0.866026, 1, -1.95399e-14, -4.37114e-08, 1.15738, 2.19156, 0 )
+spot_range = 11.079
+spot_attenuation = 6.49801
+spot_angle = 49.7
+
 [node name="console_deck" type="CSGBox" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.444981, -0.681444, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.612063, -0.808933, 0 )
 use_collision = true
 width = 1.50801
-height = 1.09588
+height = 0.730126
 depth = 4.51048
-material = ExtResource( 4 )
+material = ExtResource( 10 )
 
 [node name="console_upper_deck" type="CSGBox" parent="Ship/Console"]
-transform = Transform( 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.10331, 0.422606, -0.0777106 )
+transform = Transform( 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.10331, 0.211624, -0.0777106 )
 use_collision = true
 width = 0.77534
 height = 1.65338
 depth = 4.51048
-material = ExtResource( 4 )
+material = ExtResource( 10 )
 
-[node name="Button" type="Area" parent="Ship/Console" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.81042, -0.169947, 0 )
+[node name="button_Console" type="Area" parent="Ship/Console" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11441, -0.455711, -1.5592 )
 script = ExtResource( 6 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Button"]
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Console"]
 shape = SubResource( 4 )
 
-[node name="mesh" type="MeshInstance" parent="Ship/Console/Button"]
-mesh = SubResource( 5 )
+[node name="mesh" type="MeshInstance" parent="Ship/Console/button_Console"]
+mesh = SubResource( 14 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 6 )
+
+[node name="button_Scan" type="Area" parent="Ship/Console" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03531, -1, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Scan"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525621, 0 )
+mesh = SubResource( 15 )
+material/0 = SubResource( 16 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Scan"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52701, 0 )
+shape = SubResource( 17 )
+
+[node name="button_Radar" type="Area" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660614, -0.428311, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Radar"]
+mesh = SubResource( 18 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Radar"]
+shape = SubResource( 19 )
+
+[node name="button_Navigation" type="Area" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660614, -0.428311, 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Navigation"]
+mesh = SubResource( 18 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Navigation"]
+shape = SubResource( 19 )
+
+[node name="button_Power" type="Area" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660614, -0.428311, -1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Power"]
+mesh = SubResource( 18 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Power"]
+shape = SubResource( 19 )
+
+[node name="button_Right15" type="Area" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05776, -0.443713, 0.558713 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Right15"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 20 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Right15"]
+shape = SubResource( 21 )
+
+[node name="button_Left15" type="Area" parent="Ship/Console"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.04153, -0.443713, 1.45904 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Left15"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 20 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Left15"]
+shape = SubResource( 21 )
+
+[node name="Area" type="Area" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.04899, -0.529348, 1.01832 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Area"]
+mesh = SubResource( 22 )
+material/0 = null
 
 [node name="Geometry" type="Spatial" parent="Ship"]
 
@@ -218,6 +388,11 @@ width = 10.8906
 height = 0.568602
 material = ExtResource( 3 )
 
+[node name="wall_writing" type="MeshInstance" parent="Ship/Geometry"]
+transform = Transform( -5.156e-08, 0.579555, 0.207055, -6.78801e-09, 0.155292, -0.772741, -0.6, -5.156e-08, -9.05068e-09, -4.99871, 1.77695, 1.2977 )
+mesh = SubResource( 12 )
+material/0 = SubResource( 13 )
+
 [node name="Audio" type="Spatial" parent="."]
 
 [node name="ambient1" type="AudioStreamPlayer3D" parent="Audio"]
@@ -246,3 +421,34 @@ stream = ExtResource( 5 )
 unit_db = 2.0
 pitch_scale = 1.1
 autoplay = true
+
+[node name="COSpawner" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, 193 )
+script = ExtResource( 11 )
+
+[node name="Timer" type="Timer" parent="COSpawner"]
+wait_time = 2.0
+autostart = true
+
+[node name="COSpawner2" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, -193 )
+script = ExtResource( 11 )
+
+[node name="Timer" type="Timer" parent="COSpawner2"]
+wait_time = 2.0
+autostart = true
+
+[node name="artery" type="MeshInstance" parent="."]
+transform = Transform( -0.368381, -0.595227, 0, 0.595227, -0.368381, 0, 0, 0, 0.7, 12.8427, -1.64903, -5.5958 )
+visible = false
+mesh = ExtResource( 13 )
+material/0 = SubResource( 11 )
+
+[node name="artery2" type="MeshInstance" parent="."]
+transform = Transform( -0.368381, -0.595227, 0, 0.595227, -0.368381, 0, 0, 0, 0.7, 12.8427, -1.64903, 1.4042 )
+visible = false
+mesh = ExtResource( 13 )
+material/0 = SubResource( 11 )
+
+[connection signal="timeout" from="COSpawner/Timer" to="COSpawner" method="_on_Timer_timeout"]
+[connection signal="timeout" from="COSpawner2/Timer" to="COSpawner2" method="_on_Timer_timeout"]
