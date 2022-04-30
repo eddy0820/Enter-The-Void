@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/wind-fogrollin.mp3-bed09d95350f89ebc49fabb0fa77f133.mp3str"
+
+[deps]
+
+source_file="res://Sounds/wind-fogrollin.mp3"
+dest_files=[ "res://.import/wind-fogrollin.mp3-bed09d95350f89ebc49fabb0fa77f133.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
