@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/blueMonolithCrystal.obj-c4032e1b2dddeaf3578e1c73c3e4326b.mesh"
+
+[deps]
+
+files=[ "res://.import/blueMonolithCrystal.obj-c4032e1b2dddeaf3578e1c73c3e4326b.mesh" ]
+
+source_file="res://Models/Monolith Crystal/blueMonolithCrystal.obj"
+dest_files=[ "res://.import/blueMonolithCrystal.obj-c4032e1b2dddeaf3578e1c73c3e4326b.mesh", "res://.import/blueMonolithCrystal.obj-c4032e1b2dddeaf3578e1c73c3e4326b.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
