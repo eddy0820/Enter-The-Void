@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Danger Beep Alarm Sound Effect.mp3-72d7b2fb45cbc2bf868ff7ee4d0f52e0.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Danger Beep Alarm Sound Effect.mp3"
+dest_files=[ "res://.import/Danger Beep Alarm Sound Effect.mp3-72d7b2fb45cbc2bf868ff7ee4d0f52e0.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/sound  of old computer startup.mp3-9475cc0ab0b6e2a67c8e012e20f6d422.mp3str"
+
+[deps]
+
+source_file="res://Sounds/sound  of old computer startup.mp3"
+dest_files=[ "res://.import/sound  of old computer startup.mp3-9475cc0ab0b6e2a67c8e012e20f6d422.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
