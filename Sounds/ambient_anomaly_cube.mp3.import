@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ambient_anomaly_cube.mp3-223b3f1edb9f3b24fafef7d096726125.mp3str"
+
+[deps]
+
+source_file="res://Sounds/ambient_anomaly_cube.mp3"
+dest_files=[ "res://.import/ambient_anomaly_cube.mp3-223b3f1edb9f3b24fafef7d096726125.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

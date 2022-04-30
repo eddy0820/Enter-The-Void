@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/engine_hum.wav-d3906df74ffa73bdc9dc4c049d65ea07.sample"
+
+[deps]
+
+source_file="res://Sounds/engine_hum.wav"
+dest_files=[ "res://.import/engine_hum.wav-d3906df74ffa73bdc9dc4c049d65ea07.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

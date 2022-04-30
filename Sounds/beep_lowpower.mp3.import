@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/beep_lowpower.mp3-156fa12ab5b7314d8bc8d4ae17b854e5.mp3str"
+
+[deps]
+
+source_file="res://Sounds/beep_lowpower.mp3"
+dest_files=[ "res://.import/beep_lowpower.mp3-156fa12ab5b7314d8bc8d4ae17b854e5.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -28,10 +28,10 @@ func finishNavEvent():
 	pass
 
 func rotateRight(degree: int):
-	#rotate ship here
+	$ShipDisplay.rotation_degrees += degree
 	currDegree += degree
 	
 	
 func rotateLeft(degree: int):
-	#rotate ship here
+	$ShipDisplay.rotation_degrees -= degree
 	currDegree -= degree

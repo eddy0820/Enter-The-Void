@@ -1,11 +1,11 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://Scripts/KinematicBody.gd" type="Script" id=1]
-[ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
+[ext_resource path="res://Textures/black.png" type="Texture" id=2]
 [ext_resource path="res://Materials/metal_wall.tres" type="Material" id=3]
 [ext_resource path="res://Materials/metal.tres" type="Material" id=4]
 [ext_resource path="res://Sounds/ambience_sky.wav" type="AudioStream" id=5]
-[ext_resource path="res://Scripts/Button.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/Buttons.gd" type="Script" id=6]
 [ext_resource path="res://Textures/crosshair.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/ScannerConsole.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Screen.gd" type="Script" id=9]
@@ -15,6 +15,21 @@
 [ext_resource path="res://Models/taint_curved.obj" type="ArrayMesh" id=13]
 [ext_resource path="res://Textures/wallwriting.png" type="Texture" id=14]
 [ext_resource path="res://Materials/pulsing_flesh_shader.shader" type="Shader" id=15]
+[ext_resource path="res://Sounds/engine_hum.wav" type="AudioStream" id=16]
+[ext_resource path="res://Sounds/power_hum.wav" type="AudioStream" id=17]
+[ext_resource path="res://Textures/wallkey.png" type="Texture" id=18]
+[ext_resource path="res://Materials/button_glowy.tres" type="Material" id=19]
+[ext_resource path="res://Textures/trypo.png" type="Texture" id=20]
+[ext_resource path="res://Textures/trypo_NM.png" type="Texture" id=21]
+[ext_resource path="res://Models/magic_cube.obj" type="ArrayMesh" id=22]
+[ext_resource path="res://Scenes/Main.gd" type="Script" id=23]
+[ext_resource path="res://Scenes/NavigationScreenConsole.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Scenes/MessageScreenConsole.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Scenes/EnergyDisplayConsole.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Sounds/console_glitch.mp3" type="AudioStream" id=27]
+[ext_resource path="res://Scenes/Cube.gd" type="Script" id=28]
+[ext_resource path="res://Sounds/ambient_anomaly_cube.mp3" type="AudioStream" id=29]
+[ext_resource path="res://Fonts/ConsoleFont.tres" type="DynamicFont" id=30]
 
 [sub_resource type="PanoramaSky" id=2]
 panorama = ExtResource( 2 )
@@ -23,7 +38,7 @@ panorama = ExtResource( 2 )
 background_mode = 2
 background_sky = SubResource( 2 )
 ambient_light_color = Color( 1, 1, 1, 1 )
-ambient_light_energy = 0.0
+ambient_light_energy = 6.0
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.3
@@ -60,12 +75,6 @@ tracks/0/keys = {
 "values": [ 30.0, 70.0 ]
 }
 
-[sub_resource type="PlaneMesh" id=7]
-size = Vector2( 1.2, 1.2 )
-
-[sub_resource type="SpatialMaterial" id=8]
-albedo_color = Color( 0, 0, 0, 1 )
-
 [sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.160698, 0.145432, 0.144003 )
 
@@ -75,7 +84,7 @@ bottom_radius = 0.15
 height = 0.2
 
 [sub_resource type="SpatialMaterial" id=6]
-albedo_color = Color( 1, 0, 0, 1 )
+albedo_color = Color( 0.498039, 0, 0, 1 )
 
 [sub_resource type="CubeMesh" id=15]
 size = Vector3( 0.3, 0.3, 0.3 )
@@ -99,9 +108,12 @@ size = Vector3( 0.2, 0.2, 0.2 )
 extents = Vector3( 0.1, 0.1, 0.1 )
 
 [sub_resource type="CylinderMesh" id=22]
-top_radius = 0.2
-bottom_radius = 0.2
+top_radius = 0.15
+bottom_radius = 0.15
 height = 0.4
+
+[sub_resource type="BoxShape" id=27]
+extents = Vector3( 0.227574, 0.199341, 0.197254 )
 
 [sub_resource type="CubeMesh" id=23]
 size = Vector3( 0.2, 0.2, 0.2 )
@@ -109,11 +121,32 @@ size = Vector3( 0.2, 0.2, 0.2 )
 [sub_resource type="BoxShape" id=24]
 extents = Vector3( 0.1, 0.1, 0.1 )
 
+[sub_resource type="PlaneMesh" id=7]
+size = Vector2( 1.2, 1.2 )
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=28]
+flags_unshaded = true
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CapsuleMesh" id=29]
+material = SubResource( 28 )
+radius = 0.05
+mid_height = 0.05
+radial_segments = 8
+rings = 4
+
 [sub_resource type="PlaneMesh" id=12]
 
 [sub_resource type="SpatialMaterial" id=13]
 flags_transparent = true
 albedo_texture = ExtResource( 14 )
+
+[sub_resource type="SpatialMaterial" id=25]
+flags_transparent = true
+albedo_texture = ExtResource( 18 )
 
 [sub_resource type="ShaderMaterial" id=11]
 shader = ExtResource( 15 )
@@ -122,7 +155,14 @@ shader_param/Saturation = 1.0
 shader_param/PulseRate = 1.0
 shader_param/PulseIntensity = 0.1
 
+[sub_resource type="SpatialMaterial" id=26]
+albedo_texture = ExtResource( 20 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 21 )
+
 [node name="Main" type="Spatial"]
+script = ExtResource( 23 )
 
 [node name="Env" type="Node" parent="."]
 
@@ -131,7 +171,7 @@ environment = SubResource( 3 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Env"]
 transform = Transform( 0.152225, -0.971225, 0.183167, 0.623876, 0.238163, 0.74435, -0.766555, 0.000964881, 0.642178, 0, 2.37948, -4.63203 )
-visible = false
+light_energy = 0.5
 shadow_enabled = true
 
 [node name="Player" type="KinematicBody" parent="."]
@@ -167,6 +207,17 @@ anims/RESET = SubResource( 9 )
 anims/cam_zoom = ExtResource( 12 )
 anims/cam_zoom_out = SubResource( 10 )
 
+[node name="InteractLabel" type="Label" parent="Player/Head/Camera"]
+margin_left = 810.0
+margin_top = 473.0
+margin_right = 1110.0
+margin_bottom = 498.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 30 )
+align = 1
+valign = 1
+
 [node name="Aimcast" type="RayCast" parent="Player/Head"]
 enabled = true
 cast_to = Vector3( 0, 0, -2 )
@@ -178,16 +229,191 @@ collide_with_bodies = false
 [node name="Console" type="Spatial" parent="Ship"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.26276, 1.42882, 0 )
 
+[node name="Buttons" type="Spatial" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11363, 0, 0 )
+script = ExtResource( 6 )
+
+[node name="Recieve Transmission" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0503349, -0.455711, -1.5592 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Recieve Transmission"]
+shape = SubResource( 4 )
+
+[node name="mesh" type="MeshInstance" parent="Ship/Console/Buttons/Recieve Transmission"]
+mesh = SubResource( 14 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 6 )
+
+[node name="Gamma Pulse" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0783238, -1, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Gamma Pulse"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525621, 0 )
+mesh = SubResource( 15 )
+material/0 = SubResource( 16 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Gamma Pulse"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52701, 0 )
+shape = SubResource( 17 )
+
+[node name="Switch to Radar" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.413424, -0.45302, -0.428311, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Switch to Radar"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 18 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Switch to Radar"]
+shape = SubResource( 19 )
+
+[node name="Switch to Navigation" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.413424, -0.45302, -0.428311, 0.413424 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Switch to Navigation"]
+mesh = SubResource( 18 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Switch to Navigation"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00652194, 0 )
+shape = SubResource( 19 )
+
+[node name="Switch to Power" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.413424, -0.45302, -0.428311, -0.413424 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Switch to Power"]
+mesh = SubResource( 18 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Switch to Power"]
+shape = SubResource( 19 )
+
+[node name="Turn Right 15°" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0558734, -0.443713, 0.558713 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Turn Right 15°"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 20 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Turn Right 15°"]
+shape = SubResource( 21 )
+
+[node name="Turn Left 15°" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.0721035, -0.443713, 1.45904 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Turn Left 15°"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 20 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Turn Left 15°"]
+shape = SubResource( 21 )
+
+[node name="Identify as Planetary Mass" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, -1.05496, 0.83322, -0.780982 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Identify as Planetary Mass"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 20 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Identify as Planetary Mass"]
+shape = SubResource( 21 )
+
+[node name="Identify as Debritus" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, -0.970553, 0.527442, -0.780982 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Identify as Debritus"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 20 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Identify as Debritus"]
+shape = SubResource( 21 )
+
+[node name="Identify as Alien Organism" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, -0.883574, 0.241699, -0.780982 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Identify as Alien Organism"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 20 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Identify as Alien Organism"]
+shape = SubResource( 21 )
+
+[node name="Identify as Unknown" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, -0.805159, -0.074228, -0.780982 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Identify as Unknown"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 20 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Identify as Unknown"]
+shape = SubResource( 21 )
+
+[node name="Initiate Warp" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0646434, -0.529348, 1.01832 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Initiate Warp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0216923, 0 )
+mesh = SubResource( 22 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Initiate Warp"]
+shape = SubResource( 27 )
+
+[node name="Toggle Lights" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0768237, -0.497017, -0.965595 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Toggle Lights"]
+mesh = SubResource( 23 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Toggle Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00130248, 0 )
+shape = SubResource( 24 )
+
+[node name="Toggle Console" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0768237, -0.497017, -0.603633 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Toggle Console"]
+mesh = SubResource( 23 )
+material/0 = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Toggle Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00143957, 0 )
+shape = SubResource( 24 )
+
 [node name="Screen" type="MeshInstance" parent="Ship/Console"]
-transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.248414, 0.399738, 0 )
+transform = Transform( -6.8887e-08, 0.965926, 0.258819, 2.67951e-08, 0.258819, -0.965926, -1, -5.96046e-08, -4.37114e-08, 0.199994, 0.334376, 0 )
 mesh = SubResource( 7 )
 material/0 = SubResource( 8 )
 script = ExtResource( 9 )
 
 [node name="GUI" type="Viewport" parent="Ship/Console/Screen"]
 size = Vector2( 800, 800 )
+render_target_v_flip = true
+
+[node name="blackscreen" type="ColorRect" parent="Ship/Console/Screen/GUI"]
+visible = false
+margin_right = 800.0
+margin_bottom = 800.0
+rect_min_size = Vector2( 800, 800 )
+color = Color( 0, 0, 0, 1 )
 
 [node name="ScannerConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 8 )]
+
+[node name="EnergyDisplayConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 26 )]
+visible = false
+
+[node name="MessageScreenConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 25 )]
+visible = false
+
+[node name="NavigationScreenConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 24 )]
+visible = false
 
 [node name="ScreenLight" type="OmniLight" parent="Ship/Console"]
 transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.276124, 0.399738, 0 )
@@ -196,7 +422,12 @@ omni_attenuation = 6.49801
 
 [node name="SpotLight" type="SpotLight" parent="Ship/Console"]
 transform = Transform( 2.18557e-08, 0.866026, 0.5, 3.78552e-08, -0.5, 0.866026, 1, -1.95399e-14, -4.37114e-08, 1.15738, 2.19156, 0 )
-visible = false
+spot_range = 11.079
+spot_attenuation = 6.49801
+spot_angle = 49.7
+
+[node name="SpotLight2" type="SpotLight" parent="Ship/Console/SpotLight"]
+transform = Transform( 1, 4.13895e-08, -2.96544e-08, -4.13895e-08, 0.321588, -0.94688, -2.96543e-08, 0.94688, 0.321588, 1.68838e-07, 6.69016, 3.86257 )
 spot_range = 11.079
 spot_attenuation = 6.49801
 spot_angle = 49.7
@@ -217,108 +448,25 @@ height = 1.65338
 depth = 4.51048
 material = ExtResource( 10 )
 
-[node name="button_Console" type="Area" parent="Ship/Console" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11441, -0.455711, -1.5592 )
-script = ExtResource( 6 )
+[node name="CSGBox" type="CSGBox" parent="Ship/Console/console_upper_deck"]
+transform = Transform( 0.999998, -1.49012e-08, 0, 1.49012e-08, 0.999998, 0, 0, 0, 1, 0.425713, 0.0403826, 0.073 )
+operation = 2
+width = 0.250037
+height = 1.2
+depth = 1.2
+material = ExtResource( 10 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Console"]
-shape = SubResource( 4 )
-
-[node name="mesh" type="MeshInstance" parent="Ship/Console/button_Console"]
-mesh = SubResource( 14 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 6 )
-
-[node name="button_Scan" type="Area" parent="Ship/Console" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03531, -1, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Scan"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525621, 0 )
-mesh = SubResource( 15 )
-material/0 = SubResource( 16 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Scan"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52701, 0 )
-shape = SubResource( 17 )
-
-[node name="button_Radar" type="Area" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660614, -0.428311, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Radar"]
-mesh = SubResource( 18 )
+[node name="Transmission" type="MeshInstance" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.675995, -0.454674, -1.60189 )
+mesh = SubResource( 29 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Radar"]
-shape = SubResource( 19 )
-
-[node name="button_Navigation" type="Area" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660614, -0.428311, 1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Navigation"]
-mesh = SubResource( 18 )
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Navigation"]
-shape = SubResource( 19 )
-
-[node name="button_Power" type="Area" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660614, -0.428311, -1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Power"]
-mesh = SubResource( 18 )
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Power"]
-shape = SubResource( 19 )
-
-[node name="button_Right15" type="Area" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05776, -0.443713, 0.558713 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Right15"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-mesh = SubResource( 20 )
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Right15"]
-shape = SubResource( 21 )
-
-[node name="button_Left15" type="Area" parent="Ship/Console"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.04153, -0.443713, 1.45904 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Left15"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-mesh = SubResource( 20 )
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Left15"]
-shape = SubResource( 21 )
-
-[node name="button_Warp" type="Area" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.04899, -0.529348, 1.01832 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Warp"]
-mesh = SubResource( 22 )
-material/0 = null
-
-[node name="button_FrontLight" type="Area" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03681, -0.497017, -0.965595 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_FrontLight"]
-mesh = SubResource( 23 )
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_FrontLight"]
-shape = SubResource( 24 )
-
-[node name="button_ConsoleLight" type="Area" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03681, -0.497017, -0.603633 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_ConsoleLight"]
-mesh = SubResource( 23 )
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_ConsoleLight"]
-shape = SubResource( 24 )
+[node name="OmniLight" type="OmniLight" parent="Ship/Console/Transmission"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0887385 )
+light_color = Color( 1, 0, 0, 1 )
+shadow_enabled = true
+omni_range = 0.790634
+omni_attenuation = 1.8025
 
 [node name="Geometry" type="Spatial" parent="Ship"]
 
@@ -419,6 +567,11 @@ transform = Transform( -5.156e-08, 0.579555, 0.207055, -6.78801e-09, 0.155292, -
 mesh = SubResource( 12 )
 material/0 = SubResource( 13 )
 
+[node name="wall_key" type="MeshInstance" parent="Ship/Geometry"]
+transform = Transform( -4.29666e-08, 0.482963, 0.188939, -5.65668e-09, 0.12941, -0.705126, -0.5, -4.29666e-08, -8.25877e-09, -4.97025, 1.81398, -1.40941 )
+mesh = SubResource( 12 )
+material/0 = SubResource( 25 )
+
 [node name="Audio" type="Spatial" parent="."]
 
 [node name="ambient1" type="AudioStreamPlayer3D" parent="Audio"]
@@ -448,6 +601,24 @@ unit_db = 2.0
 pitch_scale = 1.1
 autoplay = true
 
+[node name="power_hum" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1126, 0.00724411, -0.2971 )
+stream = ExtResource( 17 )
+unit_db = 2.0
+autoplay = true
+
+[node name="engine_hum" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1126, 0.00724411, -0.2971 )
+stream = ExtResource( 16 )
+unit_db = 2.0
+pitch_scale = 1.1
+autoplay = true
+
+[node name="console_glitch" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2841, 1.56236, 0.0116579 )
+stream = ExtResource( 27 )
+unit_db = 1.0
+
 [node name="COSpawner" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, 193 )
 script = ExtResource( 11 )
@@ -476,5 +647,29 @@ visible = false
 mesh = ExtResource( 13 )
 material/0 = SubResource( 11 )
 
+[node name="Anomalies" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -130.364 )
+
+[node name="Cube" type="MeshInstance" parent="Anomalies"]
+transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )
+mesh = ExtResource( 22 )
+material/0 = SubResource( 26 )
+script = ExtResource( 28 )
+
+[node name="ambient_anomaly_cube" type="AudioStreamPlayer3D" parent="Anomalies/Cube"]
+transform = Transform( 20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0 )
+stream = ExtResource( 29 )
+unit_db = 6.0
+unit_size = 6.0
+max_db = 6.0
+pitch_scale = 1.1
+autoplay = true
+max_distance = 3000.0
+
+[node name="powertick" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
 [connection signal="timeout" from="COSpawner/Timer" to="COSpawner" method="_on_Timer_timeout"]
 [connection signal="timeout" from="COSpawner2/Timer" to="COSpawner2" method="_on_Timer_timeout"]
+[connection signal="timeout" from="powertick" to="." method="_on_powertick_timeout"]

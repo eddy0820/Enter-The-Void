@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/low_hum.mp3-928a1f80e5622cc64d12274fe2a10d4b.mp3str"
+
+[deps]
+
+source_file="res://Sounds/low_hum.mp3"
+dest_files=[ "res://.import/low_hum.mp3-928a1f80e5622cc64d12274fe2a10d4b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

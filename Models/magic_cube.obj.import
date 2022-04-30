@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/magic_cube.obj-a6a80d08e4f54bf40bf0fb9739969c7f.mesh"
+
+[deps]
+
+files=[ "res://.import/magic_cube.obj-a6a80d08e4f54bf40bf0fb9739969c7f.mesh" ]
+
+source_file="res://Models/magic_cube.obj"
+dest_files=[ "res://.import/magic_cube.obj-a6a80d08e4f54bf40bf0fb9739969c7f.mesh", "res://.import/magic_cube.obj-a6a80d08e4f54bf40bf0fb9739969c7f.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

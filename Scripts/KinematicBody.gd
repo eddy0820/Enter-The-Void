@@ -54,7 +54,15 @@ func _process(delta: float) -> void:
 # Called every physics tick. 'delta' is constant
 func _physics_process(delta: float) -> void:
 	walk(delta)
-
+	
+	#set HUD label to colliding button
+	if $Head/Aimcast.is_colliding():
+		if $Head/Aimcast.get_collider().is_in_group("interactable"):
+			$Head/Camera/InteractLabel.text = $Head/Aimcast.get_collider().name
+		else:
+			$Head/Camera/InteractLabel.text = ""
+	else:
+		$Head/Camera/InteractLabel.text = ""
 
 # Called when there is an input event
 func _input(event: InputEvent) -> void:
@@ -64,8 +72,9 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("interact") && $Head/Aimcast.is_colliding():
 		var aimcollider = $Head/Aimcast.get_collider()
-		if aimcollider.has_method("interact"):
-			aimcollider.interact()
+		if aimcollider.is_in_group("interactable"):
+			get_parent().push(aimcollider.name)
+			
 		
 
 

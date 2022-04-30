@@ -1,4 +1,6 @@
-[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+[gd_resource type="SpatialMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://Textures/metal_smooth_NM.png" type="Texture" id=1]
 
 [sub_resource type="StreamTexture" id=1]
 flags = 19
@@ -7,5 +9,8 @@ load_path = "res://.import/metal_smooth.png-d773dcd50c7986bc2cfe361b2f0ccc9c.s3t
 [resource]
 flags_world_triplanar = true
 albedo_texture = SubResource( 1 )
+normal_enabled = true
+normal_scale = 0.5
+normal_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.1, 0.1, 0.1 )
 uv1_triplanar = true
