@@ -60,6 +60,7 @@ __meta__ = {
 margin_left = 295.0
 margin_right = 505.0
 margin_bottom = 50.0
+custom_colors/font_color = Color( 0, 0.572549, 0, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "Console"
 
@@ -68,6 +69,7 @@ margin_top = 65.0
 margin_right = 800.0
 margin_bottom = 780.0
 rect_min_size = Vector2( 800, 715 )
+custom_colors/default_color = Color( 0, 0.572549, 0, 1 )
 custom_fonts/normal_font = SubResource( 4 )
 text = "/-> This is a message."
 
