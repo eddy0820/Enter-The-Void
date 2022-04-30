@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Scripts/KinematicBody.gd" type="Script" id=1]
 [ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
@@ -23,7 +23,7 @@ panorama = ExtResource( 2 )
 background_mode = 2
 background_sky = SubResource( 2 )
 ambient_light_color = Color( 1, 1, 1, 1 )
-ambient_light_energy = 4.0
+ambient_light_energy = 0.0
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.3
@@ -102,6 +102,12 @@ extents = Vector3( 0.1, 0.1, 0.1 )
 top_radius = 0.2
 bottom_radius = 0.2
 height = 0.4
+
+[sub_resource type="CubeMesh" id=23]
+size = Vector3( 0.2, 0.2, 0.2 )
+
+[sub_resource type="BoxShape" id=24]
+extents = Vector3( 0.1, 0.1, 0.1 )
 
 [sub_resource type="PlaneMesh" id=12]
 
@@ -183,14 +189,14 @@ size = Vector2( 800, 800 )
 
 [node name="ScannerConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 8 )]
 
-[node name="ConsoleLight" type="OmniLight" parent="Ship/Console"]
+[node name="ScreenLight" type="OmniLight" parent="Ship/Console"]
 transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.276124, 0.399738, 0 )
-visible = false
 light_color = Color( 0, 0.607843, 0.0509804, 1 )
 omni_attenuation = 6.49801
 
 [node name="SpotLight" type="SpotLight" parent="Ship/Console"]
 transform = Transform( 2.18557e-08, 0.866026, 0.5, 3.78552e-08, -0.5, 0.866026, 1, -1.95399e-14, -4.37114e-08, 1.15738, 2.19156, 0 )
+visible = false
 spot_range = 11.079
 spot_attenuation = 6.49801
 spot_angle = 49.7
@@ -287,12 +293,32 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_Left15"]
 shape = SubResource( 21 )
 
-[node name="Area" type="Area" parent="Ship/Console"]
+[node name="button_Warp" type="Area" parent="Ship/Console"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.04899, -0.529348, 1.01832 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Area"]
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_Warp"]
 mesh = SubResource( 22 )
 material/0 = null
+
+[node name="button_FrontLight" type="Area" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03681, -0.497017, -0.965595 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_FrontLight"]
+mesh = SubResource( 23 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_FrontLight"]
+shape = SubResource( 24 )
+
+[node name="button_ConsoleLight" type="Area" parent="Ship/Console"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03681, -0.497017, -0.603633 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/button_ConsoleLight"]
+mesh = SubResource( 23 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/button_ConsoleLight"]
+shape = SubResource( 24 )
 
 [node name="Geometry" type="Spatial" parent="Ship"]
 
