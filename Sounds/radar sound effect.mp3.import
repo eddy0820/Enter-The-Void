@@ -11,5 +11,5 @@ dest_files=[ "res://.import/radar sound effect.mp3-9efefe1da1f4cd2ef2ac053d2baad
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

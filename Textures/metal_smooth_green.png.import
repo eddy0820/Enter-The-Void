@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/Monolith Crystal - Purple.jpg-da346062ceb5cb2001123dd7d4cc3f17.s3tc.stex"
-path.etc2="res://.import/Monolith Crystal - Purple.jpg-da346062ceb5cb2001123dd7d4cc3f17.etc2.stex"
+path.s3tc="res://.import/metal_smooth_green.png-d29ba95a5e01ffcd1f317f211d0d489e.s3tc.stex"
+path.etc2="res://.import/metal_smooth_green.png-d29ba95a5e01ffcd1f317f211d0d489e.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Models/Monolith Crystal/Monolith Crystal - Purple.jpg"
-dest_files=[ "res://.import/Monolith Crystal - Purple.jpg-da346062ceb5cb2001123dd7d4cc3f17.s3tc.stex", "res://.import/Monolith Crystal - Purple.jpg-da346062ceb5cb2001123dd7d4cc3f17.etc2.stex" ]
+source_file="res://Textures/metal_smooth_green.png"
+dest_files=[ "res://.import/metal_smooth_green.png-d29ba95a5e01ffcd1f317f211d0d489e.s3tc.stex", "res://.import/metal_smooth_green.png-d29ba95a5e01ffcd1f317f211d0d489e.etc2.stex" ]
 
 [params]
 

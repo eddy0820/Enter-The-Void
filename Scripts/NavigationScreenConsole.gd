@@ -1,37 +1,34 @@
 extends Node2D
 
-var onTrack = true
-var currDegree = 0
 
+var tempDegree = 0
+var requiredDegree = 0
 
 func _process(delta):
-	if(currDegree != 0):
-		onTrack = false
+	if int($ShipDisplay.rotation_degrees) % 360 != requiredDegree:
+		Globals.off_course = true
+		$Control/NavigationContainer/SubtitleContainer/Label.visible = true
 	else:
-		onTrack	= true
-		
-	if(onTrack):
-		finishNavEvent()
+		Globals.off_course = false
+		$Control/NavigationContainer/SubtitleContainer/Label.visible = false
+		$Control/NavigationContainer/SubtitleContainer/Label.text = "NAVIGATION OFF COURSE"
 
 func setNavEvent(degree: int, left: bool):
 	var string = ""
 	if(left):
-		currDegree = -degree
 		string = "left"
+		requiredDegree = $ShipDisplay.rotation_degrees - degree
 	else:
-		currDegree = degree
 		string = "right"
+		requiredDegree = $ShipDisplay.rotation_degrees + degree
 	$Control/NavigationContainer/SubtitleContainer/Label.text = "OBSTRUCTION DETECTED\n" + "Navigate " + str(degree) + " degrees " + string
 	
-func finishNavEvent():
-	$Control/NavigationContainer/SubtitleContainer/Label.text = ""
-	pass
 
 func rotateRight(degree: int):
 	$ShipDisplay.rotation_degrees += degree
-	currDegree += degree
+	tempDegree += degree
 	
 	
 func rotateLeft(degree: int):
 	$ShipDisplay.rotation_degrees -= degree
-	currDegree -= degree
+	tempDegree -= degree

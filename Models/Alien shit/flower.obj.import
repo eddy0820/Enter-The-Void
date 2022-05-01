@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/flower.obj-7b94441e9aa1a45272f8377496c475a0.mesh"
+
+[deps]
+
+files=[ "res://.import/flower.obj-7b94441e9aa1a45272f8377496c475a0.mesh" ]
+
+source_file="res://Models/Alien shit/flower.obj"
+dest_files=[ "res://.import/flower.obj-7b94441e9aa1a45272f8377496c475a0.mesh", "res://.import/flower.obj-7b94441e9aa1a45272f8377496c475a0.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

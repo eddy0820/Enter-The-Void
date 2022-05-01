@@ -80,7 +80,7 @@ func _input(event: InputEvent) -> void:
 			get_parent().push(aimcollider.name)
 	
 	if Input.is_action_just_pressed("debug"):
-		get_parent().triggerBlackFog()
+		get_parent().triggerRenavigate()
 		
 		
 

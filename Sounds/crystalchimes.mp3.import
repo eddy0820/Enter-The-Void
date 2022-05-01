@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/crystalchimes.mp3-e8f8a2fddf10a11b1cda22c7df9dba43.mp3str"
+
+[deps]
+
+source_file="res://Sounds/crystalchimes.mp3"
+dest_files=[ "res://.import/crystalchimes.mp3-e8f8a2fddf10a11b1cda22c7df9dba43.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

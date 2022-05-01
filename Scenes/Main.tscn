@@ -1,11 +1,11 @@
-[gd_scene load_steps=74 format=2]
+[gd_scene load_steps=89 format=2]
 
 [ext_resource path="res://Scripts/KinematicBody.gd" type="Script" id=1]
 [ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
 [ext_resource path="res://Materials/metal_wall.tres" type="Material" id=3]
 [ext_resource path="res://Materials/metal.tres" type="Material" id=4]
 [ext_resource path="res://Sounds/ambience_sky.wav" type="AudioStream" id=5]
-[ext_resource path="res://Scenes/Buttons.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/Buttons.gd" type="Script" id=6]
 [ext_resource path="res://Textures/ui/crosshair.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/ScannerConsole.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Screen.gd" type="Script" id=9]
@@ -19,24 +19,34 @@
 [ext_resource path="res://Sounds/power_hum.wav" type="AudioStream" id=17]
 [ext_resource path="res://Textures/wallkey.png" type="Texture" id=18]
 [ext_resource path="res://Materials/button_glowy.tres" type="Material" id=19]
-[ext_resource path="res://Textures/trypo.png" type="Texture" id=20]
-[ext_resource path="res://Textures/trypo_NM.png" type="Texture" id=21]
-[ext_resource path="res://Models/magic_cube.obj" type="ArrayMesh" id=22]
-[ext_resource path="res://Scenes/Main.gd" type="Script" id=23]
+[ext_resource path="res://Models/Monolith Crystal/Monolith Crystal_red.jpg" type="Texture" id=20]
+[ext_resource path="res://Models/Monolith Crystal/Monolith Crystal - Green.jpg" type="Texture" id=21]
+[ext_resource path="res://Models/Monolith Crystal/Monolith Crystal - Purple.jpg" type="Texture" id=22]
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=23]
 [ext_resource path="res://Scenes/NavigationScreenConsole.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/MessageScreenConsole.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/EnergyDisplayConsole.tscn" type="PackedScene" id=26]
 [ext_resource path="res://Sounds/console_glitch.mp3" type="AudioStream" id=27]
-[ext_resource path="res://Scenes/Cube.gd" type="Script" id=28]
-[ext_resource path="res://Sounds/ambient_anomaly_cube.mp3" type="AudioStream" id=29]
+[ext_resource path="res://Models/Monolith Crystal/Monolith Crystal.jpg" type="Texture" id=28]
+[ext_resource path="res://Scenes/Crystals.gd" type="Script" id=29]
 [ext_resource path="res://Fonts/ConsoleFont.tres" type="DynamicFont" id=30]
 [ext_resource path="res://Models/planet2.obj" type="ArrayMesh" id=31]
-[ext_resource path="res://Scenes/Initiate Warp.gd" type="Script" id=32]
+[ext_resource path="res://Scripts/Initiate Warp.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Sword.tscn" type="PackedScene" id=33]
 [ext_resource path="res://Textures/planet2.png" type="Texture" id=34]
-[ext_resource path="res://Scenes/WorldEnvironment.gd" type="Script" id=35]
+[ext_resource path="res://Scripts/WorldEnvironment.gd" type="Script" id=35]
 [ext_resource path="res://Textures/fog.png" type="Texture" id=36]
 [ext_resource path="res://Scenes/Static.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Materials/metal_smooth_green.tres" type="Material" id=38]
+[ext_resource path="res://Textures/metal_smooth_red.png" type="Texture" id=39]
+[ext_resource path="res://Textures/metal_smooth_blue.png" type="Texture" id=40]
+[ext_resource path="res://Scripts/Anomalies.gd" type="Script" id=41]
+[ext_resource path="res://Scripts/Visions.gd" type="Script" id=42]
+[ext_resource path="res://Models/Monolith Crystal/purple crystal.obj" type="ArrayMesh" id=43]
+[ext_resource path="res://Sounds/crystalchimes.mp3" type="AudioStream" id=44]
+[ext_resource path="res://Scenes/Navigation_Noti.gd" type="Script" id=45]
+[ext_resource path="res://Sounds/nav_beep.wav" type="AudioStream" id=46]
+[ext_resource path="res://Sounds/radar sound effect.mp3" type="AudioStream" id=47]
 
 [sub_resource type="PanoramaSky" id=2]
 panorama = ExtResource( 2 )
@@ -112,22 +122,28 @@ tracks/0/keys = {
 "values": [ 30.0, 70.0 ]
 }
 
-[sub_resource type="BoxShape" id=4]
-extents = Vector3( 0.160698, 0.145432, 0.144003 )
-
 [sub_resource type="CylinderMesh" id=14]
 top_radius = 0.15
 bottom_radius = 0.15
 height = 0.2
 
 [sub_resource type="SpatialMaterial" id=6]
-albedo_color = Color( 0.498039, 0, 0, 1 )
+flags_transparent = true
+flags_world_triplanar = true
+albedo_texture = ExtResource( 39 )
+uv1_scale = Vector3( 0.1, 0.1, 0.1 )
+uv1_triplanar = true
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.160698, 0.145432, 0.144003 )
 
 [sub_resource type="CubeMesh" id=15]
 size = Vector3( 0.3, 0.3, 0.3 )
 
 [sub_resource type="SpatialMaterial" id=16]
-albedo_color = Color( 0.00784314, 0, 1, 1 )
+albedo_texture = ExtResource( 40 )
+uv1_scale = Vector3( 0.1, 0.1, 0.1 )
+uv1_triplanar = true
 
 [sub_resource type="BoxShape" id=17]
 extents = Vector3( 0.15, 0.15, 0.15 )
@@ -165,15 +181,47 @@ size = Vector2( 1.2, 1.2 )
 albedo_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="SpatialMaterial" id=28]
+flags_transparent = true
 flags_unshaded = true
-albedo_color = Color( 1, 0, 0, 1 )
+albedo_color = Color( 1, 1, 1, 0.129412 )
 
 [sub_resource type="CapsuleMesh" id=29]
 material = SubResource( 28 )
-radius = 0.05
+radius = 0.03
 mid_height = 0.05
 radial_segments = 8
 rings = 4
+
+[sub_resource type="Animation" id=42]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+
+[sub_resource type="Animation" id=43]
+resource_name = "light_flicker"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.9, 0.0, 0.9, 1.0 ]
+}
 
 [sub_resource type="PlaneMesh" id=12]
 
@@ -185,6 +233,10 @@ albedo_texture = ExtResource( 14 )
 flags_transparent = true
 albedo_texture = ExtResource( 18 )
 
+[sub_resource type="SpatialMaterial" id=30]
+flags_unshaded = true
+albedo_texture = ExtResource( 34 )
+
 [sub_resource type="ShaderMaterial" id=11]
 shader = ExtResource( 15 )
 shader_param/albedo = Color( 0.682353, 0, 0, 1 )
@@ -192,15 +244,21 @@ shader_param/Saturation = 1.0
 shader_param/PulseRate = 1.0
 shader_param/PulseIntensity = 0.1
 
-[sub_resource type="SpatialMaterial" id=26]
-albedo_texture = ExtResource( 20 )
-normal_enabled = true
-normal_scale = 1.0
-normal_texture = ExtResource( 21 )
-
-[sub_resource type="SpatialMaterial" id=30]
+[sub_resource type="SpatialMaterial" id=38]
 flags_unshaded = true
-albedo_texture = ExtResource( 34 )
+albedo_texture = ExtResource( 22 )
+
+[sub_resource type="SpatialMaterial" id=39]
+flags_unshaded = true
+albedo_texture = ExtResource( 28 )
+
+[sub_resource type="SpatialMaterial" id=40]
+flags_unshaded = true
+albedo_texture = ExtResource( 21 )
+
+[sub_resource type="SpatialMaterial" id=41]
+flags_unshaded = true
+albedo_texture = ExtResource( 20 )
 
 [sub_resource type="Curve" id=31]
 min_value = 0.99
@@ -312,16 +370,16 @@ script = ExtResource( 6 )
 [node name="Recieve Transmission" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0503349, -0.455711, -1.5592 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Recieve Transmission"]
-shape = SubResource( 4 )
-
 [node name="mesh" type="MeshInstance" parent="Ship/Console/Buttons/Recieve Transmission"]
 mesh = SubResource( 14 )
 skeleton = NodePath("../../..")
 material/0 = SubResource( 6 )
 
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Recieve Transmission"]
+shape = SubResource( 4 )
+
 [node name="Gamma Pulse" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0783238, -1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0783238, -1.05159, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Gamma Pulse"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525621, 0 )
@@ -333,32 +391,32 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52701, 0 )
 shape = SubResource( 17 )
 
 [node name="Switch to Radar" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.413424, -0.45302, -0.428311, 0 )
+transform = Transform( 0.258819, 0.965926, 0, -1.2557, 0.336465, 0, 0, 0, 0.496109, -0.674452, -0.397814, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Switch to Radar"]
 mesh = SubResource( 18 )
-material/0 = ExtResource( 19 )
+material/0 = ExtResource( 38 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Switch to Radar"]
 shape = SubResource( 19 )
 
 [node name="Switch to Navigation" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.413424, -0.45302, -0.428311, 0.413424 )
+transform = Transform( 0.258819, 0.965926, 0, -1.2557, 0.336465, 0, 0, 0, 0.496109, -0.674452, -0.397814, 0.496109 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Switch to Navigation"]
 mesh = SubResource( 18 )
-material/0 = ExtResource( 19 )
+material/0 = ExtResource( 38 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Switch to Navigation"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00652194, 0 )
 shape = SubResource( 19 )
 
 [node name="Switch to Power" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.413424, -0.45302, -0.428311, -0.413424 )
+transform = Transform( 0.258819, 0.965926, 0, -1.2557, 0.336465, 0, 0, 0, 0.496109, -0.674452, -0.397814, -0.496109 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Switch to Power"]
 mesh = SubResource( 18 )
-material/0 = ExtResource( 19 )
+material/0 = ExtResource( 38 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Switch to Power"]
 shape = SubResource( 19 )
@@ -442,7 +500,7 @@ material/0 = ExtResource( 19 )
 shape = SubResource( 27 )
 
 [node name="Toggle Lights" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0768237, -0.497017, -0.965595 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.380157, -0.497017, -1.05936 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Toggle Lights"]
 mesh = SubResource( 23 )
@@ -453,7 +511,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00130248, 0 )
 shape = SubResource( 24 )
 
 [node name="Toggle Console" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0768237, -0.497017, -0.603633 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0610008, -0.497017, -1.06304 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Toggle Console"]
 mesh = SubResource( 23 )
@@ -500,7 +558,8 @@ light_color = Color( 0, 0.607843, 0.0509804, 1 )
 omni_attenuation = 6.49801
 
 [node name="SpotLight" type="SpotLight" parent="Ship/Console"]
-transform = Transform( 2.18557e-08, 0.866026, 0.5, 3.78552e-08, -0.5, 0.866026, 1, -1.95399e-14, -4.37114e-08, 1.15738, 2.19156, 0 )
+transform = Transform( 2.76576e-08, 0.774371, 0.632732, 3.38488e-08, -0.632732, 0.774371, 1, -1.77636e-15, -4.37114e-08, 1.15738, 2.19156, 0 )
+light_energy = 1.4
 spot_range = 11.079
 spot_attenuation = 6.49801
 spot_angle = 49.7
@@ -540,7 +599,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.67599
 mesh = SubResource( 29 )
 material/0 = null
 
-[node name="OmniLight" type="OmniLight" parent="Ship/Console/Transmission_Noti"]
+[node name="trans_light" type="OmniLight" parent="Ship/Console/Transmission_Noti"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0887385 )
 light_color = Color( 1, 0, 0, 1 )
 shadow_enabled = true
@@ -548,16 +607,26 @@ omni_range = 0.790634
 omni_attenuation = 1.8025
 
 [node name="Navigation_Noti" type="MeshInstance" parent="Ship/Console"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.676, -0.455, 1.602 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.676, -0.455, 1.03103 )
 mesh = SubResource( 29 )
 material/0 = null
+script = ExtResource( 45 )
 
-[node name="OmniLight" type="OmniLight" parent="Ship/Console/Navigation_Noti"]
+[node name="nav_light" type="OmniLight" parent="Ship/Console/Navigation_Noti"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0887385 )
 light_color = Color( 1, 0, 0, 1 )
 shadow_enabled = true
 omni_range = 0.790634
 omni_attenuation = 1.8025
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ship/Console/Navigation_Noti/nav_light"]
+anims/RESET = SubResource( 42 )
+anims/light_flicker = SubResource( 43 )
+
+[node name="nav_beep" type="AudioStreamPlayer3D" parent="Ship/Console/Navigation_Noti"]
+stream = ExtResource( 46 )
+
+[node name="navTimer" type="Timer" parent="Ship/Console/Navigation_Noti"]
 
 [node name="Geometry" type="Spatial" parent="Ship"]
 
@@ -710,6 +779,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2841, 1.56236, 0.0116579 )
 stream = ExtResource( 27 )
 unit_db = 1.0
 
+[node name="sonar_pulse" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0 )
+stream = ExtResource( 47 )
+
 [node name="COSpawner" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, 193 )
 script = ExtResource( 11 )
@@ -726,49 +799,93 @@ script = ExtResource( 11 )
 wait_time = 2.0
 autostart = true
 
-[node name="artery" type="MeshInstance" parent="."]
-transform = Transform( -0.368381, -0.595227, 0, 0.595227, -0.368381, 0, 0, 0, 0.7, 12.8427, -1.64903, -5.5958 )
-visible = false
-mesh = ExtResource( 13 )
-material/0 = SubResource( 11 )
-
-[node name="artery2" type="MeshInstance" parent="."]
-transform = Transform( -0.368381, -0.595227, 0, 0.595227, -0.368381, 0, 0, 0, 0.7, 12.8427, -1.64903, 1.4042 )
-visible = false
-mesh = ExtResource( 13 )
-material/0 = SubResource( 11 )
-
 [node name="Anomalies" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.7429, 0, -74.6087 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.7429, 0, -255.082 )
+script = ExtResource( 41 )
 
-[node name="Cube" type="MeshInstance" parent="Anomalies"]
-transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )
-mesh = ExtResource( 22 )
-material/0 = SubResource( 26 )
-script = ExtResource( 28 )
+[node name="Timer" type="Timer" parent="Anomalies"]
 
-[node name="ambient_anomaly_cube" type="AudioStreamPlayer3D" parent="Anomalies/Cube"]
-transform = Transform( 20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0 )
-stream = ExtResource( 29 )
-unit_db = 6.0
-unit_size = 6.0
-max_db = 6.0
-pitch_scale = 1.1
-max_distance = 3000.0
+[node name="AnomalySpawner" type="Spatial" parent="Anomalies"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -499.257, 0, 541.082 )
+
+[node name="AnomalySpawner2" type="Spatial" parent="Anomalies"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -499.257, 0, -33.9179 )
 
 [node name="Visions" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 297.717 )
+script = ExtResource( 42 )
 
 [node name="Planet" type="MeshInstance" parent="Visions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 527.503 )
+visible = false
 mesh = ExtResource( 31 )
 material/0 = SubResource( 30 )
 
 [node name="Sword" parent="Visions/Planet" instance=ExtResource( 33 )]
 transform = Transform( 2.46059e-06, 32.5, 56.2916, 1.42062e-06, -56.2916, 32.5, 65, 0, -2.84124e-06, -209.886, 436.303, 0 )
 
+[node name="Arteries" type="Spatial" parent="Visions"]
+visible = false
+
+[node name="artery" type="MeshInstance" parent="Visions/Arteries"]
+transform = Transform( -0.368381, -0.595227, 0, 0.595227, -0.368381, 0, 0, 0, 0.7, 12.8427, -1.64903, -303.313 )
+mesh = ExtResource( 13 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 11 )
+
+[node name="artery2" type="MeshInstance" parent="Visions/Arteries"]
+transform = Transform( -0.368381, -0.595227, 0, 0.595227, -0.368381, 0, 0, 0, 0.7, 12.8427, -1.64903, -296.681 )
+mesh = ExtResource( 13 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 11 )
+
+[node name="Crystals" type="Spatial" parent="Visions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -297.738 )
+visible = false
+script = ExtResource( 29 )
+
+[node name="crystalPurple" type="MeshInstance" parent="Visions/Crystals"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.168, 18 )
+mesh = ExtResource( 43 )
+material/0 = SubResource( 38 )
+
+[node name="crystalchime" type="AudioStreamPlayer3D" parent="Visions/Crystals/crystalPurple"]
+stream = ExtResource( 44 )
+unit_size = 4.0
+pitch_scale = 1.4
+
+[node name="crystalBlue" type="MeshInstance" parent="Visions/Crystals"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.168, -18 )
+mesh = ExtResource( 43 )
+material/0 = SubResource( 39 )
+
+[node name="crystalchime" type="AudioStreamPlayer3D" parent="Visions/Crystals/crystalBlue"]
+stream = ExtResource( 44 )
+unit_size = 4.0
+pitch_scale = 0.6
+
+[node name="crystalGreen" type="MeshInstance" parent="Visions/Crystals"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 18, -1.168, 0.199 )
+mesh = ExtResource( 43 )
+material/0 = SubResource( 40 )
+
+[node name="crystalchime" type="AudioStreamPlayer3D" parent="Visions/Crystals/crystalGreen"]
+stream = ExtResource( 44 )
+unit_size = 4.0
+pitch_scale = 0.2
+
+[node name="crystalRed" type="MeshInstance" parent="Visions/Crystals"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -18, -1.168, 0.199 )
+mesh = ExtResource( 43 )
+material/0 = SubResource( 41 )
+
+[node name="crystalchime" type="AudioStreamPlayer3D" parent="Visions/Crystals/crystalRed"]
+stream = ExtResource( 44 )
+unit_size = 4.0
+pitch_scale = 2.0
+
 [node name="powertick" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 12.0
 autostart = true
 
 [node name="blackfog_mid" type="Particles" parent="."]
@@ -797,6 +914,8 @@ lifetime = 8.0
 visibility_aabb = AABB( -71.0576, -15.6568, -40.7916, 142.115, 31.3136, 81.5833 )
 process_material = SubResource( 33 )
 draw_pass_1 = SubResource( 35 )
+
+[node name="Spatial" type="Spatial" parent="."]
 
 [connection signal="timeout" from="COSpawner/Timer" to="COSpawner" method="_on_Timer_timeout"]
 [connection signal="timeout" from="COSpawner2/Timer" to="COSpawner2" method="_on_Timer_timeout"]

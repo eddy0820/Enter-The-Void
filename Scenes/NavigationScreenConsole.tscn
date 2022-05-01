@@ -11,16 +11,16 @@ font_path = "res://Fonts/Modeseven-L3n5.ttf"
 
 [sub_resource type="DynamicFont" id=7]
 resource_local_to_scene = true
-size = 50
+size = 28
 font_data = SubResource( 5 )
 
 [sub_resource type="DynamicFontData" id=6]
 resource_local_to_scene = true
 font_path = "res://Fonts/Modeseven-L3n5.ttf"
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=10]
 resource_local_to_scene = true
-size = 25
+size = 36
 font_data = SubResource( 6 )
 
 [sub_resource type="DynamicFont" id=9]
@@ -51,13 +51,10 @@ margin_top = 20.0
 margin_right = 800.0
 margin_bottom = 800.0
 custom_constants/separation = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HeaderContainer" type="HBoxContainer" parent="Control/NavigationContainer"]
 margin_right = 800.0
-margin_bottom = 50.0
+margin_bottom = 29.0
 custom_constants/separation = 15
 alignment = 1
 __meta__ = {
@@ -65,33 +62,33 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Control/NavigationContainer/HeaderContainer"]
-margin_left = 250.0
-margin_right = 550.0
-margin_bottom = 50.0
-custom_colors/font_color = Color( 0, 0.572549, 0, 1 )
+margin_left = 315.0
+margin_right = 485.0
+margin_bottom = 29.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "Navigation"
 
 [node name="SubtitleContainer" type="HBoxContainer" parent="Control/NavigationContainer"]
-margin_top = 65.0
+margin_top = 44.0
 margin_right = 800.0
-margin_bottom = 165.0
+margin_bottom = 144.0
 rect_min_size = Vector2( 0, 100 )
 alignment = 1
 
 [node name="Label" type="Label" parent="Control/NavigationContainer/SubtitleContainer"]
-margin_left = 310.0
-margin_top = 37.0
-margin_right = 490.0
-margin_bottom = 62.0
-custom_colors/font_color = Color( 0, 0.572549, 0, 1 )
-custom_fonts/font = SubResource( 8 )
+margin_left = 268.0
+margin_top = 31.0
+margin_right = 532.0
+margin_bottom = 68.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 10 )
 text = "This is text"
 
 [node name="NavContainer" type="HBoxContainer" parent="Control/NavigationContainer"]
-margin_top = 180.0
+margin_top = 159.0
 margin_right = 800.0
-margin_bottom = 730.0
+margin_bottom = 709.0
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="Control/NavigationContainer/NavContainer"]

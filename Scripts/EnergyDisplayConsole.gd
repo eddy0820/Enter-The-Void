@@ -25,6 +25,14 @@ func useEnergy(energy: int):
 	
 	$Control/VBoxContainer/HBoxContainer/CenterContainer/TextureProgress.value = currEnergy
 	$Control/VBoxContainer/HBoxContainer/VBoxContainer/Label2.text = str(currEnergy) + "%"
+
+func restoreEnergy(energy:int):
+	currEnergy += energy
+	if(currEnergy < 0):
+		currEnergy = 0
+	
+	$Control/VBoxContainer/HBoxContainer/CenterContainer/TextureProgress.value = currEnergy
+	$Control/VBoxContainer/HBoxContainer/VBoxContainer/Label2.text = str(currEnergy) + "%"
 	
 func cutPower():
 	currEnergy = 0

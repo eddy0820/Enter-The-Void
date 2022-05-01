@@ -1,6 +1,7 @@
 extends Node2D
 
 var selecting = false
+var currentAnomalyType: String
 
 func ready():
 	$Radar/scanFailLabel.hide()
@@ -17,11 +18,12 @@ func scanFail():
 	$Timer.start(3)
 
 
-func detectAnomaly(mass: int, velocity: int, gammaReaction: bool):
+func detectAnomaly(mass: int, velocity: int, gammaReaction: bool, type: String):
 	$Radar.hide()
 	$AnomalyDetected.show()
 	selecting = true
 	
+	currentAnomalyType = type
 	
 	$AnomalyDetected/VBoxContainer/Mass.text = "Mass: " + str(mass) + " hg"
 	$AnomalyDetected/VBoxContainer/Velocity.text = "Velocity: " + str(velocity) + " cm/s"
@@ -29,12 +31,19 @@ func detectAnomaly(mass: int, velocity: int, gammaReaction: bool):
 		$AnomalyDetected/VBoxContainer/Gammareaction.text = "Gamma: YES"
 	else:
 		$AnomalyDetected/VBoxContainer/Gammareaction.text = "Gamma: NO"
+	$AnomalyDetected/VBoxContainer/IndentifyAnomaly.text = type
 
 
-func identifyAnomaly():
+func identifyAnomaly(selection):
 	selecting = false
-	$Radar.show()
-	$AnomalyDetected.hide()
+	
+	if selection == currentAnomalyType:
+		$Radar.show()
+		$AnomalyDetected.hide()
+		get_parent().get_parent().get_parent().get_parent().get_parent().energyRestore()
+		get_parent().get_parent().get_parent().get_parent().get_parent().clearAnomalies()
+	else:
+		get_parent().get_parent().get_parent().get_parent().get_parent().triggerBlackFog()
 
 
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hdr_space.png-b951f99e2e71dd21ca0ef2799da3014e.stex"
+path="res://.import/noti_bulbs.jpg-3987d704c20be1ab596dc8bf2c8cb5e8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/hdr_space.png"
-dest_files=[ "res://.import/hdr_space.png-b951f99e2e71dd21ca0ef2799da3014e.stex" ]
+source_file="res://Textures/noti_bulbs.jpg"
+dest_files=[ "res://.import/noti_bulbs.jpg-3987d704c20be1ab596dc8bf2c8cb5e8.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
