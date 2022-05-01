@@ -78,7 +78,10 @@ func _input(event: InputEvent) -> void:
 		var aimcollider = $Head/Aimcast.get_collider()
 		if aimcollider.is_in_group("interactable"):
 			get_parent().push(aimcollider.name)
-			
+	
+	if Input.is_action_just_pressed("debug"):
+		get_parent().triggerBlackFog()
+		
 		
 
 

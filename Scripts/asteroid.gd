@@ -1,4 +1,4 @@
-extends MeshInstance
+extends Spatial
 
 var z_offset = 0.0
 var y_offset = 0.0
@@ -17,6 +17,30 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
 	rng.randomize()
+	
+	#Show random asteroid mesh
+	var asteroidRoll = rng.randi_range(1,4)
+	match asteroidRoll:
+		1:
+			$asteroid1.show()
+			$asteroid2.hide()
+			$asteroid3.hide()
+			$asteroid4.hide()
+		2:
+			$asteroid1.hide()
+			$asteroid2.show()
+			$asteroid3.hide()
+			$asteroid4.hide()
+		3:
+			$asteroid1.hide()
+			$asteroid2.hide()
+			$asteroid3.show()
+			$asteroid4.hide()
+		4:
+			$asteroid1.hide()
+			$asteroid2.hide()
+			$asteroid3.hide()
+			$asteroid4.show()
 	
 	velocity = rng.randf_range(0.08,0.2)
 	var scale_random = rng.randi_range(3,20)

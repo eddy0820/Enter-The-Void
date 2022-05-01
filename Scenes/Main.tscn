@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=74 format=2]
 
 [ext_resource path="res://Scripts/KinematicBody.gd" type="Script" id=1]
 [ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
@@ -34,6 +34,9 @@
 [ext_resource path="res://Scenes/Initiate Warp.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Sword.tscn" type="PackedScene" id=33]
 [ext_resource path="res://Textures/planet2.png" type="Texture" id=34]
+[ext_resource path="res://Scenes/WorldEnvironment.gd" type="Script" id=35]
+[ext_resource path="res://Textures/fog.png" type="Texture" id=36]
+[ext_resource path="res://Scenes/Static.tscn" type="PackedScene" id=37]
 
 [sub_resource type="PanoramaSky" id=2]
 panorama = ExtResource( 2 )
@@ -42,6 +45,37 @@ panorama = ExtResource( 2 )
 background_mode = 2
 background_sky = SubResource( 2 )
 ambient_light_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="Animation" id=36]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "dim"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.02 ]
+}
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.3
@@ -168,6 +202,37 @@ normal_texture = ExtResource( 21 )
 flags_unshaded = true
 albedo_texture = ExtResource( 34 )
 
+[sub_resource type="Curve" id=31]
+min_value = 0.99
+max_value = 4.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.63587, 4 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=32]
+curve = SubResource( 31 )
+
+[sub_resource type="ParticlesMaterial" id=33]
+emission_shape = 2
+emission_box_extents = Vector3( 10, 15, 10 )
+spread = 10.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 10.0
+angular_velocity = 12.0
+angular_velocity_random = 1.0
+linear_accel = 3.0
+scale_curve = SubResource( 32 )
+
+[sub_resource type="SpatialMaterial" id=34]
+flags_transparent = true
+flags_use_shadow_to_opacity = true
+flags_unshaded = true
+params_billboard_mode = 1
+albedo_color = Color( 0, 0, 0, 1 )
+albedo_texture = ExtResource( 36 )
+
+[sub_resource type="QuadMesh" id=35]
+material = SubResource( 34 )
+size = Vector2( 16, 16 )
+
 [node name="Main" type="Spatial"]
 script = ExtResource( 23 )
 
@@ -175,11 +240,15 @@ script = ExtResource( 23 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
 environment = SubResource( 3 )
+script = ExtResource( 35 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Env"]
-transform = Transform( -0.152225, 0.971225, -0.183167, 0.623876, 0.238163, 0.74435, 0.766555, -0.000964809, -0.642178, 0, 2.37948, -4.63203 )
-light_energy = 0.5
+transform = Transform( 1, 0, 0, 0, 0.810338, 0.585962, 0, -0.585962, 0.810338, 1.52343, 1.74013, 0 )
 shadow_enabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Env/DirectionalLight"]
+anims/RESET = SubResource( 36 )
+anims/dim = SubResource( 37 )
 
 [node name="Player" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.77306, 0 )
@@ -412,14 +481,17 @@ rect_min_size = Vector2( 800, 800 )
 color = Color( 0, 0, 0, 1 )
 
 [node name="ScannerConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 8 )]
+visible = false
 
 [node name="EnergyDisplayConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 26 )]
 visible = false
 
 [node name="MessageScreenConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 25 )]
-visible = false
 
 [node name="NavigationScreenConsole" parent="Ship/Console/Screen/GUI" instance=ExtResource( 24 )]
+visible = false
+
+[node name="Static" parent="Ship/Console/Screen/GUI" instance=ExtResource( 37 )]
 visible = false
 
 [node name="ScreenLight" type="OmniLight" parent="Ship/Console"]
@@ -682,7 +754,6 @@ unit_db = 6.0
 unit_size = 6.0
 max_db = 6.0
 pitch_scale = 1.1
-autoplay = true
 max_distance = 3000.0
 
 [node name="Visions" type="Spatial" parent="."]
@@ -699,6 +770,33 @@ transform = Transform( 2.46059e-06, 32.5, 56.2916, 1.42062e-06, -56.2916, 32.5, 
 [node name="powertick" type="Timer" parent="."]
 wait_time = 3.0
 autostart = true
+
+[node name="blackfog_mid" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5695, 0, 0 )
+emitting = false
+amount = 150
+lifetime = 5.0
+visibility_aabb = AABB( -71.0576, -29.5408, -40.7916, 142.115, 59.0816, 81.5833 )
+process_material = SubResource( 33 )
+draw_pass_1 = SubResource( 35 )
+
+[node name="blackfog_L" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -40.7529, 0, -24.4699 )
+emitting = false
+amount = 300
+lifetime = 8.0
+visibility_aabb = AABB( -71.0576, -15.6568, -40.7916, 142.115, 31.3136, 81.5833 )
+process_material = SubResource( 33 )
+draw_pass_1 = SubResource( 35 )
+
+[node name="blackfog_R" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -38.5266, 0, 27.755 )
+emitting = false
+amount = 300
+lifetime = 8.0
+visibility_aabb = AABB( -71.0576, -15.6568, -40.7916, 142.115, 31.3136, 81.5833 )
+process_material = SubResource( 33 )
+draw_pass_1 = SubResource( 35 )
 
 [connection signal="timeout" from="COSpawner/Timer" to="COSpawner" method="_on_Timer_timeout"]
 [connection signal="timeout" from="COSpawner2/Timer" to="COSpawner2" method="_on_Timer_timeout"]
