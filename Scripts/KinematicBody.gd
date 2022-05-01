@@ -12,6 +12,7 @@ var mouse_axis := Vector2()
 onready var head: Spatial = get_node(head_path)
 onready var cam: Camera = get_node(cam_path)
 # Move
+var can_move = true
 var velocity := Vector3()
 var direction := Vector3()
 var move_axis := Vector2()
@@ -53,7 +54,8 @@ func _process(delta: float) -> void:
 
 # Called every physics tick. 'delta' is constant
 func _physics_process(delta: float) -> void:
-	walk(delta)
+	if can_move:	
+		walk(delta)
 	
 	#set HUD label to colliding button && change crosshair
 	if $Head/Aimcast.is_colliding():
@@ -70,17 +72,18 @@ func _physics_process(delta: float) -> void:
 	
 # Called when there is an input event
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		mouse_axis = event.relative
-		camera_rotation()
-	
-	if Input.is_action_just_pressed("interact") && $Head/Aimcast.is_colliding():
-		var aimcollider = $Head/Aimcast.get_collider()
-		if aimcollider.is_in_group("interactable"):
-			get_parent().push(aimcollider.name)
-	
-	if Input.is_action_just_pressed("debug"):
-		get_parent().triggerRenavigate()
+	if can_move:
+		if event is InputEventMouseMotion:
+			mouse_axis = event.relative
+			camera_rotation()
+		
+		if Input.is_action_just_pressed("interact") && $Head/Aimcast.is_colliding():
+			var aimcollider = $Head/Aimcast.get_collider()
+			if aimcollider.is_in_group("interactable"):
+				get_parent().push(aimcollider.name)
+		
+		if Input.is_action_just_pressed("debug"):
+			get_parent().triggerRenavigate()
 		
 		
 
@@ -184,7 +187,7 @@ func jump() -> void:
 		snap = Vector3.ZERO
 
 
-func sprint(delta: float) -> void:
+func sprint(_delta: float) -> void:
 	if can_sprint():
 		_speed = sprint_speed
 		sprinting = true

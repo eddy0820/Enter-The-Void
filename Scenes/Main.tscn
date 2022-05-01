@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=95 format=2]
 
 [ext_resource path="res://Scripts/KinematicBody.gd" type="Script" id=1]
 [ext_resource path="res://Textures/hdr_space.png" type="Texture" id=2]
@@ -47,6 +47,9 @@
 [ext_resource path="res://Scenes/Navigation_Noti.gd" type="Script" id=45]
 [ext_resource path="res://Sounds/nav_beep.wav" type="AudioStream" id=46]
 [ext_resource path="res://Sounds/radar sound effect.mp3" type="AudioStream" id=47]
+[ext_resource path="res://Scenes/DeathScreen.gd" type="Script" id=48]
+[ext_resource path="res://Sounds/Button Press Sound Effect.mp3" type="AudioStream" id=49]
+[ext_resource path="res://Sounds/navclick.wav" type="AudioStream" id=50]
 
 [sub_resource type="PanoramaSky" id=2]
 panorama = ExtResource( 2 )
@@ -84,7 +87,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.02 ]
+"values": [ 1.0, 0.5 ]
 }
 
 [sub_resource type="CapsuleShape" id=1]
@@ -122,12 +125,26 @@ tracks/0/keys = {
 "values": [ 30.0, 70.0 ]
 }
 
+[sub_resource type="DynamicFontData" id=6]
+resource_local_to_scene = true
+font_path = "res://Fonts/Modeseven-L3n5.ttf"
+
+[sub_resource type="DynamicFont" id=44]
+resource_local_to_scene = true
+size = 86
+font_data = SubResource( 6 )
+
+[sub_resource type="DynamicFont" id=45]
+resource_local_to_scene = true
+size = 56
+font_data = SubResource( 6 )
+
 [sub_resource type="CylinderMesh" id=14]
 top_radius = 0.15
 bottom_radius = 0.15
 height = 0.2
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=46]
 flags_transparent = true
 flags_world_triplanar = true
 albedo_texture = ExtResource( 39 )
@@ -352,6 +369,48 @@ custom_fonts/font = ExtResource( 30 )
 align = 1
 valign = 1
 
+[node name="DeathScreen" type="Node2D" parent="Player/Head/Camera"]
+visible = false
+script = ExtResource( 48 )
+
+[node name="ColorRect" type="ColorRect" parent="Player/Head/Camera/DeathScreen"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 1920, 1080 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="mission_failed" type="Label" parent="Player/Head/Camera/DeathScreen"]
+margin_left = 579.0
+margin_top = 267.0
+margin_right = 1307.0
+margin_bottom = 354.0
+custom_fonts/font = SubResource( 44 )
+text = "MISSION FAILED"
+
+[node name="death_message" type="Label" parent="Player/Head/Camera/DeathScreen"]
+margin_left = 246.0
+margin_top = 429.0
+margin_right = 1708.0
+margin_bottom = 486.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = SubResource( 45 )
+text = "An unidentified anomaly attacked your ship."
+align = 1
+valign = 1
+
+[node name="rToRestart" type="Label" parent="Player/Head/Camera/DeathScreen"]
+margin_left = 236.0
+margin_top = 791.0
+margin_right = 1698.0
+margin_bottom = 848.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = SubResource( 45 )
+text = "Press R to restart"
+align = 1
+valign = 1
+
 [node name="Aimcast" type="RayCast" parent="Player/Head"]
 enabled = true
 cast_to = Vector3( 0, 0, -2 )
@@ -373,7 +432,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0503349, -0.455711, -1.5592
 [node name="mesh" type="MeshInstance" parent="Ship/Console/Buttons/Recieve Transmission"]
 mesh = SubResource( 14 )
 skeleton = NodePath("../../..")
-material/0 = SubResource( 6 )
+material/0 = SubResource( 46 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Recieve Transmission"]
 shape = SubResource( 4 )
@@ -487,16 +546,16 @@ material/0 = ExtResource( 19 )
 [node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Identify as Unknown"]
 shape = SubResource( 21 )
 
-[node name="Initiate Warp" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
+[node name="Start Mission" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0646434, -0.529348, 1.01832 )
 script = ExtResource( 32 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Initiate Warp"]
+[node name="MeshInstance" type="MeshInstance" parent="Ship/Console/Buttons/Start Mission"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0216923, 0 )
 mesh = SubResource( 22 )
 material/0 = ExtResource( 19 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Initiate Warp"]
+[node name="CollisionShape" type="CollisionShape" parent="Ship/Console/Buttons/Start Mission"]
 shape = SubResource( 27 )
 
 [node name="Toggle Lights" type="Area" parent="Ship/Console/Buttons" groups=["interactable"]]
@@ -783,6 +842,16 @@ unit_db = 1.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0 )
 stream = ExtResource( 47 )
 
+[node name="buttonpush_flip" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.80218, 0.838696, 0 )
+stream = ExtResource( 49 )
+pitch_scale = 1.5
+
+[node name="buttonpush_nav" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.38859, 1.07455, 1.01372 )
+stream = ExtResource( 50 )
+unit_size = 0.5
+
 [node name="COSpawner" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, 193 )
 script = ExtResource( 11 )
@@ -803,13 +872,13 @@ autostart = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.7429, 0, -255.082 )
 script = ExtResource( 41 )
 
-[node name="Timer" type="Timer" parent="Anomalies"]
+[node name="AnomalyTimer" type="Timer" parent="Anomalies"]
 
 [node name="AnomalySpawner" type="Spatial" parent="Anomalies"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -499.257, 0, 541.082 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -434.678, 0, 541.082 )
 
 [node name="AnomalySpawner2" type="Spatial" parent="Anomalies"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -499.257, 0, -33.9179 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -434.678, 0, -33.9179 )
 
 [node name="Visions" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 297.717 )
@@ -917,6 +986,43 @@ draw_pass_1 = SubResource( 35 )
 
 [node name="Spatial" type="Spatial" parent="."]
 
+[node name="DeathTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="NavDeathTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="NavEventTimer" type="Timer" parent="."]
+
+[node name="AnomalyEventTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Phase1Time" type="Timer" parent="."]
+wait_time = 60.0
+one_shot = true
+
+[node name="Phase2Time" type="Timer" parent="."]
+wait_time = 60.0
+one_shot = true
+
+[node name="Phase3Time" type="Timer" parent="."]
+wait_time = 60.0
+one_shot = true
+
+[node name="visiontimerCrystal" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+
 [connection signal="timeout" from="COSpawner/Timer" to="COSpawner" method="_on_Timer_timeout"]
 [connection signal="timeout" from="COSpawner2/Timer" to="COSpawner2" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Anomalies/AnomalyTimer" to="Anomalies" method="_on_AnomalyTimer_timeout"]
 [connection signal="timeout" from="powertick" to="." method="_on_powertick_timeout"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
+[connection signal="timeout" from="NavDeathTimer" to="." method="_on_NavDeathTimer_timeout"]
+[connection signal="timeout" from="NavEventTimer" to="." method="_on_NavEventTimer_timeout"]
+[connection signal="timeout" from="AnomalyEventTimer" to="." method="_on_AnomalyEventTimer_timeout"]
+[connection signal="timeout" from="Phase1Time" to="." method="_on_Phase1Time_timeout"]
+[connection signal="timeout" from="Phase2Time" to="." method="_on_Phase2Time_timeout"]
+[connection signal="timeout" from="Phase3Time" to="." method="_on_Phase3Time_timeout"]
+[connection signal="timeout" from="visiontimerCrystal" to="." method="_on_visiontimerCrystal_timeout"]

@@ -15,6 +15,12 @@ var last_screen
 var console_on = true
 var console_working = true
 
+var monitor_offtrack = false
+var triggered_powerout = false
+
+
+
+
 func _ready():
 	last_screen = screen_radar
 	screen_message.loadText(message_intro)
@@ -23,23 +29,61 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_just_pressed("fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
+	if Input.is_action_just_pressed("reload"):
+		get_tree().reload_current_scene()
+		Globals.reload()
 	
 	if Globals.off_course:
 		$Ship/Console/Navigation_Noti/nav_light.set_color(Color.red)
+		if monitor_offtrack == false:
+			$NavDeathTimer.start()
+			monitor_offtrack = true
 	else:
+		monitor_offtrack = false
 		$Ship/Console/Navigation_Noti/nav_light.set_color(Color.green)
-		$Ship/Console/Navigation_Noti/nav_light/AnimationPlayer.seek(0)
+		#$Ship/Console/Navigation_Noti/nav_light/AnimationPlayer.seek(0)
+	
+	if screen_power.currEnergy <= 0 && !triggered_powerout:
+		triggered_powerout = true
+		Globals.death_message = "Ship ran out of power"
+		triggerBlackFog()
 		
+
+func handleStart():
+	if Globals.game_started == false:
+		Globals.game_started = true
+		print("Starting Phase 1 *********************************")
+		setIntensity(1)
+		$Phase1Time.start()
+		$Anomalies.handleStart()
+		$NavEventTimer.start()
+
+func phaseTwo():
+	print("Starting Phase 2 *********************************")
+	visionCrystals()
+	setIntensity(2)
+	$Phase2Time.start()
+
+func phaseThree():
+	print("Starting Phase 3 *********************************")
+	visionPlanet()
+	setIntensity(3)
+	$Phase3Time.start()
+
+func endGame():
+	print("END GAME YOU WIN *********************************")
 
 func push(button_name):
 	if console_working:
 		match button_name:
 			"Toggle Lights":
+				$Audio/buttonpush_flip.play()
 				if $Ship/Console/SpotLight.visible:
 					$Ship/Console/SpotLight.visible = false
 				else:
 					$Ship/Console/SpotLight.visible = true
 			"Switch to Radar":
+				$Audio/buttonpush_flip.play()
 				screen_nav.hide()
 				screen_power.hide()
 				screen_message.hide()
@@ -49,6 +93,7 @@ func push(button_name):
 				if !console_on:
 					console_on = true
 			"Switch to Navigation":
+				$Audio/buttonpush_flip.play()
 				screen_nav.show()
 				screen_power.hide()
 				screen_message.hide()
@@ -58,6 +103,7 @@ func push(button_name):
 				if !console_on:
 					console_on = true
 			"Switch to Power":
+				$Audio/buttonpush_flip.play()
 				screen_nav.hide()
 				screen_power.show()
 				screen_message.hide()
@@ -67,6 +113,7 @@ func push(button_name):
 				if !console_on:
 					console_on = true
 			"Toggle Console":
+				$Audio/buttonpush_flip.play()
 				if console_on:
 					screen_nav.hide()
 					screen_power.hide()
@@ -86,11 +133,13 @@ func push(button_name):
 					console_on = true
 			"Turn Right 15°":
 				if screen_nav.visible:
+					$Audio/buttonpush_nav.play()
 					screen_nav.rotateRight(15)
 					$Env/WorldEnvironment.rotateSkyRight()
 					$Env/DirectionalLight.rotation_degrees.y += 15
 			"Turn Left 15°":
 				if screen_nav.visible:
+					$Audio/buttonpush_nav.play()
 					screen_nav.rotateLeft(15)
 					$Env/WorldEnvironment.rotateSkyLeft()
 					$Env/DirectionalLight.rotation_degrees.y -= 15
@@ -129,10 +178,13 @@ func push(button_name):
 					screen_radar.identifyAnomaly("Unknown") 
 				else:
 					pass
+			"Start Mission":
+				handleStart()
 	else:
 		pass
 
 func triggerBlackFog():
+	clearAnomalies()
 	$blackfog_mid.emitting = true
 	$blackfog_L.emitting = true
 	$blackfog_R.emitting = true
@@ -145,10 +197,14 @@ func triggerBlackFog():
 	$Audio/console_glitch.play()
 	$Env/WorldEnvironment.setAmbientLight(1)
 	$Env/DirectionalLight/AnimationPlayer.play("dim")
+	$DeathTimer.start(7)
+	$NavDeathTimer.stop()
+	
 
 func triggerRenavigate():
 	if Globals.off_course:
-		pass #Player loses the game (crash animation?)
+		Globals.death_message = "Navigational error"
+		triggerBlackFog()
 	else:
 		Globals.off_course = true
 		$Ship/Console/Navigation_Noti/nav_light/AnimationPlayer.play("light_flicker")
@@ -167,6 +223,12 @@ func energyRestore():
 	
 func visionCrystals():
 	$Visions/Crystals.show()
+	$visiontimerCrystal.start()
+
+func visionPlanet():
+	$Visions/Planet.show()
+	$Env/WorldEnvironment.setAmbientLight(0)
+	$Env/DirectionalLight/AnimationPlayer.play("dim")
 
 func clearAnomalies():
 	for anomaly in get_tree().get_nodes_in_group("anomaly"):
@@ -174,8 +236,79 @@ func clearAnomalies():
 	Globals.anomaly_active = false
 
 func _on_powertick_timeout():
-	if console_on:
-		screen_power.useEnergy(1)
-	if $Ship/Console/SpotLight.visible:
-		screen_power.useEnergy(1)
+	if Globals.game_started:
+		if console_on:
+			screen_power.useEnergy(1)
+		if $Ship/Console/SpotLight.visible:
+			screen_power.useEnergy(1)
 	$powertick.start()
+
+
+func _on_DeathTimer_timeout():
+	$Player/Head/Camera/DeathScreen.show()
+	$Player.can_move = false
+
+
+func _on_NavDeathTimer_timeout():
+	if Globals.off_course:
+		Globals.death_message = "Navigational error"
+		triggerBlackFog()
+	else:
+		print("you saved yourself")
+	
+
+func setIntensity(level):
+	match level:
+		1:
+			Globals.intensity = 1
+			$NavDeathTimer.wait_time = 20
+			Globals.minTime_nextNavEvent = 30
+			Globals.maxTime_nextNavEvent = 40
+			Globals.minTime_nextAnomaly = 50
+			Globals.maxTime_nextAnomaly = 60
+			Globals.anomaly_speed = 0.1
+		2:
+			Globals.intensity = 2
+			$NavDeathTimer.wait_time = 12
+			Globals.minTime_nextNavEvent = 25
+			Globals.maxTime_nextNavEvent = 30
+			Globals.minTime_nextAnomaly = 40
+			Globals.maxTime_nextAnomaly = 50
+			Globals.anomaly_speed = 0.2
+		3:
+			Globals.intensity = 3
+			$NavDeathTimer.wait_time = 7
+			Globals.minTime_nextNavEvent = 20
+			Globals.maxTime_nextNavEvent = 25
+			Globals.minTime_nextAnomaly = 30
+			Globals.maxTime_nextAnomaly = 40
+			Globals.anomaly_speed = 0.3
+
+
+func _on_NavEventTimer_timeout():
+	triggerRenavigate()
+	var newNavEventCD = rng.randi_range(Globals.minTime_nextNavEvent, Globals.maxTime_nextNavEvent)
+	$NavEventTimer.start(newNavEventCD)
+	print("doing Nav Event - sec: " + str(newNavEventCD))
+
+
+func _on_AnomalyEventTimer_timeout():
+	$Anomalies.spawnAnomaly()
+	var newAnomalyEventCD = rng.randi_range(Globals.minTime_nextAnomaly, Globals.maxTime_nextnextAnomaly)
+	print("doing Anomaly Event - sec: " + str(newAnomalyEventCD))
+
+
+func _on_Phase1Time_timeout():
+	phaseTwo()
+
+
+func _on_Phase2Time_timeout():
+	phaseThree()
+
+
+func _on_Phase3Time_timeout():
+	endGame()
+
+
+func _on_visiontimerCrystal_timeout():
+	$Visions/Crystals.queue_free()

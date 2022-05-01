@@ -43,6 +43,7 @@ func identifyAnomaly(selection):
 		get_parent().get_parent().get_parent().get_parent().get_parent().energyRestore()
 		get_parent().get_parent().get_parent().get_parent().get_parent().clearAnomalies()
 	else:
+		Globals.death_message = "An anomaly was misidentified"
 		get_parent().get_parent().get_parent().get_parent().get_parent().triggerBlackFog()
 
 

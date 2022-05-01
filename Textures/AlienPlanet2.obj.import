@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/AlienPlanet2.obj-2893570e00538e2587a73aa2eaab37ee.mesh"
+
+[deps]
+
+files=[ "res://.import/AlienPlanet2.obj-2893570e00538e2587a73aa2eaab37ee.mesh" ]
+
+source_file="res://Textures/AlienPlanet2.obj"
+dest_files=[ "res://.import/AlienPlanet2.obj-2893570e00538e2587a73aa2eaab37ee.mesh", "res://.import/AlienPlanet2.obj-2893570e00538e2587a73aa2eaab37ee.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

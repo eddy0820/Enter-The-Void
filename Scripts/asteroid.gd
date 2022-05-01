@@ -67,7 +67,7 @@ func _ready():
 		2:
 			pass
 
-func _process(delta):
+func _process(_delta):
 	rotate_x(rotational_velocity_x)
 	rotate_y(rotational_velocity_x)
 	rotate_z(rotational_velocity_z)

@@ -2,13 +2,26 @@ extends Node
 
 onready var main_scene = preload("res://Scenes/Main.tscn")
 
-var anomaly_active = true
+var game_started = false
+var anomaly_active = false
 var vision_active = false
 var off_course = false
+var intensity = 1
+var minTime_nextNavEvent
+var maxTime_nextNavEvent
+
+var minTime_nextAnomaly
+var maxTime_nextAnomaly
+var anomaly_speed
+
+var death_message = "We'll get em next time..."
 
 
 var rng = RandomNumberGenerator.new()
 
+func reload():
+	get_tree().reload_current_scene()
+	game_started = false
 
 func attemptScan(radarscreen):
 	

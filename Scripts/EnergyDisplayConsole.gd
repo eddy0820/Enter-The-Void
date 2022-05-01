@@ -1,7 +1,7 @@
 extends Node2D
 
-export var initialEnergy = 100
-export var lowEnergyThreshold = 35
+var initialEnergy = 100
+var lowEnergyThreshold = 35
 var currEnergy = 0
 var lowEnergy = false
 
@@ -13,10 +13,10 @@ func _ready():
 	$Control/VBoxContainer/HBoxContainer/CenterContainer/TextureProgress.value = currEnergy
 	$Control/VBoxContainer/HBoxContainer/VBoxContainer/Label2.text = str(currEnergy) + "%"
 	
-func _process(delta):
-	if(currEnergy <= lowEnergyThreshold && !lowEnergy):
-		$Control/VBoxContainer/CenterContainer/Timer.start()
-		lowEnergy = true
+func _process(_delta):
+		if(currEnergy <= lowEnergyThreshold && !lowEnergy):
+			$Control/VBoxContainer/CenterContainer/Timer.start()
+			lowEnergy = true
 	
 func useEnergy(energy: int):
 	currEnergy -= energy

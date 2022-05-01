@@ -4,7 +4,7 @@ extends Node2D
 var tempDegree = 0
 var requiredDegree = 0
 
-func _process(delta):
+func _process(_delta):
 	if int($ShipDisplay.rotation_degrees) % 360 != requiredDegree:
 		Globals.off_course = true
 		$Control/NavigationContainer/SubtitleContainer/Label.visible = true

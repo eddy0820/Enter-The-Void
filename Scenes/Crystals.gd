@@ -1,7 +1,7 @@
 extends Spatial
 
 
-func _process(delta):
+func _process(_delta):
 	rotation_degrees.y += .2
 	
 	if self.visible == true && $crystalBlue/crystalchime.playing == false:
